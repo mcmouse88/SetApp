@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AnotherKindOfApp</string>
+    <string name="alert_dialog_level_1">Alert Dialog, level 1</string>
+    <string name="alert_dialog_default">Alert Dialog (default)</string>
+    <string name="alert_dialog_single_choice">Alert Dialog (single choice)</string>
+    <string name="alert_dialog_single_choice_with_confirmation">Alert Dialog (single choice with confirmation)</string>
+    <string name="alert_dialog_multiple_choice">Alert Dialog (multiple choice)</string>
+    <string name="alert_dialog_multiple_choice_with_confirmation">Alert Dialog (multiple choice with confirmation)</string>
+</resources>
