@@ -22,34 +22,82 @@
             android:text="@string/alert_dialog_level_1" />
 
         <Button
+            android:id="@+id/bt_show_default_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/alert_dialog_default" />
 
         <Button
+            android:id="@+id/bt_show_single_choice_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/alert_dialog_single_choice" />
 
         <Button
+            android:id="@+id/bt_show_single_choice_dialog_with_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/alert_dialog_single_choice_with_confirmation" />
 
         <Button
+            android:id="@+id/bt_show_multiply_choice_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/alert_dialog_multiple_choice" />
 
         <Button
+            android:id="@+id/bt_show_multiply_choice_dialog_with_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/alert_dialog_multiple_choice_with_confirmation" />
+
+        <TextView
+            android:id="@+id/tv_current_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            android:textSize="16sp"
+            android:layout_marginTop="32dp"
+            tools:text="Current Volume: 50%" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="32dp" >
+
+            <TextView
+                android:id="@+id/tv_current_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:fontFamily="casual"
+                android:textSize="16sp"
+                android:text="@string/current_color" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@color/black"
+                android:padding="2dp" >
+
+                <View
+                    android:id="@+id/color_view"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@color/level1_view_color" />
+
+            </FrameLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
