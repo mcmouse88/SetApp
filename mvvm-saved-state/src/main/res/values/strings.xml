@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">MVVM-Saved-State</string>
+    <string name="generate_colors">Generate Colors</string>
+</resources>
