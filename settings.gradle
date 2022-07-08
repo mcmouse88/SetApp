@@ -16,3 +16,4 @@ rootProject.name = "AnotherKindOfApp"
 include ':dialogs'
 include ':fragmentdialog'
 include ':mvvm-saved-state'
+include ':handler-looper-maintread'

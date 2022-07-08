@@ -17,5 +17,6 @@
 
     <style name="DefaultButton" parent="Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
+        <item name="android:minWidth">200dp</item>
     </style>
 </resources>
