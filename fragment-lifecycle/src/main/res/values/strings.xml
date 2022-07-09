@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Fragment-LifeCycle</string>
+    <string name="change_uuid">Change UUID</string>
+    <string name="next_fact">Next Fact</string>
+    <string name="change_background">Change Background</string>
+    <string name="launch_next">Launch Next</string>
+    <string name="number">Number: #%1$d</string>
+</resources>
