@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Данные в [Glide] кэшируются по умолчанию, для того чтобы отключить это используется метод
      * [skipMemoryCache(true)], но он полностью не блокирует кэширование, а вот
-     * [diskCacheStrategy(DiskCacheStrategy.NONE)] откоючает кэширование
+     * [diskCacheStrategy(DiskCacheStrategy.NONE)] отключает кэширование
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

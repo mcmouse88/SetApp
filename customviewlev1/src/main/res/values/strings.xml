@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Custom View Level 1</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+</resources>

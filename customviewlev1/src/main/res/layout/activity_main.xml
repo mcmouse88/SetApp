@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- для того, чтобы использовать уже готовый макетный файл, внутри другого используется
+        тэг include-->
+    <!--<include
+        android:id="@+id/bottom_buttons"
+        layout="@layout/part_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />-->
+
+    <!-- При создании своего компонента, теперь можно его использовать в XML файлах вместо
+    тэга include, также можем использовать свои аттрибуты, которые мы создали в папке
+    values -> attrs -->
+    <com.mcmouse88.customviewlev1.BottomButtonsView
+        android:id="@+id/bottom_buttons"
+        style="@style/ConcreteMyButtonStyle"
+        app:bottomProgressMode="false"
+        app:bottomPositiveBackgroundColor="@color/teal_700"
+        app:bottomPositiveButtonText="@string/confirm"
+        app:bottomNegativeButtonText="@string/cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
