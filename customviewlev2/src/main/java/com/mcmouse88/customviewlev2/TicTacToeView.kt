@@ -6,12 +6,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.properties.Delegates
@@ -48,9 +51,9 @@ class TicTacToeView(
      */
     var ticTacToeField: TicTacToeField? = null
         set(value) {
-            field?.listener?.remove(listener)
+            field?.listeners?.remove(listener)
             field = value
-            value?.listener?.add(listener)
+            value?.listeners?.add(listener)
             updateViewSize()
             requestLayout()
             invalidate()
@@ -66,7 +69,7 @@ class TicTacToeView(
      * Переменный для безопасной зоны для отрисовки компонента. Класс [RectF] рисует
      * прямоугольник, в параметрах которого свойства типа [Float]
      */
-    private val safeField = RectF(0f, 0f, 0f, 0f)
+    private val fieldRect = RectF(0f, 0f, 0f, 0f)
     private var cellSize = 0f
     private var cellPadding = 0f
 
@@ -93,7 +96,7 @@ class TicTacToeView(
         if (attrs != null) {
             initAttributes(attrs, defStyleAttr, defStyleRes)
         } else {
-            defaultInit()
+            initDefaultColors()
         }
         initPaints()
 
@@ -132,7 +135,7 @@ class TicTacToeView(
         typedArray.recycle()
     }
 
-    private fun defaultInit() {
+    private fun initDefaultColors() {
         playerOneColor = PLAYER_ONE_DEFAULT_COLOR
         playerTwoColor = PLAYER_TWO_DEFAULT_COLOR
         gridColor = GRID_DEFAULT_COLOR
@@ -183,7 +186,7 @@ class TicTacToeView(
      */
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        ticTacToeField?.listener?.add(listener)
+        ticTacToeField?.listeners?.add(listener)
     }
 
     /**
@@ -191,7 +194,7 @@ class TicTacToeView(
      */
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        ticTacToeField?.listener?.remove(listener)
+        ticTacToeField?.listeners?.remove(listener)
     }
 
     /**
@@ -276,10 +279,10 @@ class TicTacToeView(
         val fieldWidth = cellSize * field.columns
         val fieldHeight = cellSize * field.rows
 
-        safeField.left = paddingLeft + (safeWidth - fieldWidth) / 2
-        safeField.top = paddingTop + (safeHeight - fieldHeight) / 2
-        safeField.right = safeField.left + fieldWidth
-        safeField.bottom = safeField.top + fieldHeight
+        fieldRect.left = paddingLeft + (safeWidth - fieldWidth) / 2
+        fieldRect.top = paddingTop + (safeHeight - fieldHeight) / 2
+        fieldRect.right = fieldRect.left + fieldWidth
+        fieldRect.bottom = fieldRect.top + fieldHeight
     }
 
     /**
@@ -291,8 +294,8 @@ class TicTacToeView(
 
         if (ticTacToeField == null) return
         if (cellSize == 0f) return
-        if (safeField.width() <= 0) return
-        if (safeField.height() <= 0) return
+        if (fieldRect.width() <= 0) return
+        if (fieldRect.height() <= 0) return
 
         drawGrid(canvas)
         drawCurrentCell(canvas)
@@ -301,23 +304,23 @@ class TicTacToeView(
 
     private fun drawGrid(canvas: Canvas) {
         val field = this.ticTacToeField ?: return
-        val xStart = safeField.left
-        val xEnd = safeField.right
+        val xStart = fieldRect.left
+        val xEnd = fieldRect.right
         for (i in 0..field.rows) {
-            val y = safeField.top + cellSize * i
+            val y = fieldRect.top + cellSize * i
             canvas.drawLine(xStart, y, xEnd, y, gridPaint)
         }
 
-        val yStart = safeField.top
-        val yEnd = safeField.bottom
+        val yStart = fieldRect.top
+        val yEnd = fieldRect.bottom
         for (i in 0..field.columns) {
-            val x = safeField.left + cellSize * i
+            val x = fieldRect.left + cellSize * i
             canvas.drawLine(x, yStart, x, yEnd, gridPaint)
         }
     }
 
     private fun drawCells(canvas: Canvas) {
-        val field = this.ticTacToeField ?: return
+        val field = ticTacToeField ?: return
 
         for (row in 0 until field.rows) {
             for (column in 0 until field.columns) {
@@ -329,7 +332,8 @@ class TicTacToeView(
     }
 
     private fun drawCurrentCell(canvas: Canvas) {
-        if (currentRow == -1 && currentColumn == -1) return
+        val field = ticTacToeField ?: return
+        if (currentRow < 0 && currentColumn < 0 && currentRow >= field.rows && currentColumn >= field.columns) return
         val cell = getCellRect(currentRow, currentColumn)
         canvas.drawRect(
             cell.left - cellPadding,
@@ -364,8 +368,8 @@ class TicTacToeView(
     }
 
     private fun getCellRect(row: Int, column: Int): RectF {
-        cellRect.left = safeField.left + column * cellSize + cellPadding
-        cellRect.top = safeField.top + row * cellSize + cellPadding
+        cellRect.left = fieldRect.left + column * cellSize + cellPadding
+        cellRect.top = fieldRect.top + row * cellSize + cellPadding
         cellRect.right = cellRect.left + cellSize - cellPadding * 2
         cellRect.bottom = cellRect.top + cellSize - cellPadding * 2
         return cellRect
@@ -409,21 +413,25 @@ class TicTacToeView(
     }
 
     private fun getRow(event: MotionEvent): Int {
-        return ((event.y - safeField.top) / cellSize).toInt()
+        return floor((event.y - fieldRect.top) / cellSize).toInt()
     }
 
     private fun getColumn(event: MotionEvent): Int {
-        return ((event.x - safeField.left) / cellSize).toInt()
+        return floor((event.x - fieldRect.left) / cellSize).toInt()
     }
 
     private fun updateCurrentCell(event: MotionEvent) {
-        val field = this.ticTacToeField ?: return
+        val field = ticTacToeField ?: return
         val row = getRow(event)
         val column = getColumn(event)
         if (row >= 0 && column >= 0 && row < field.rows && column < field.columns) {
             if (currentRow != row || currentColumn != column) {
                 currentRow = row
                 currentColumn = column
+                invalidate()
+            } else {
+                currentRow = -1
+                currentColumn = -1
                 invalidate()
             }
         }
@@ -458,11 +466,52 @@ class TicTacToeView(
         }
     }
 
-    companion object {
-        private const val PLAYER_ONE_DEFAULT_COLOR = Color.BLUE
-        private const val PLAYER_TWO_DEFAULT_COLOR = Color.RED
-        private const val GRID_DEFAULT_COLOR = Color.GRAY
-
-        private const val DESIRED_CELL_SIZE = 50F
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()!!
+        val savedState = SavedState(superState)
+        savedState.currentRow = currentRow
+        savedState.currentColumn = currentColumn
+        return savedState
     }
-}
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as SavedState
+        super.onRestoreInstanceState(savedState.superState)
+        currentRow = savedState.currentRow
+        currentColumn = savedState.currentColumn
+    }
+
+    class SavedState : BaseSavedState {
+
+        var currentRow by Delegates.notNull<Int>()
+        var currentColumn by Delegates.notNull<Int>()
+
+        constructor(superState: Parcelable) : super(superState)
+        constructor(parcel: Parcel) : super(parcel) {
+            currentRow = parcel.readInt()
+            currentColumn = parcel.readInt()
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(currentRow)
+            out.writeInt(currentColumn)
+        }
+
+        companion object {
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(source: Parcel): SavedState = SavedState(source)
+                override fun newArray(size: Int): Array<SavedState?> = Array(size) { null }
+            }
+        }
+    }
+
+        companion object {
+            private const val PLAYER_ONE_DEFAULT_COLOR = Color.BLUE
+            private const val PLAYER_TWO_DEFAULT_COLOR = Color.RED
+            private const val GRID_DEFAULT_COLOR = Color.GRAY
+
+            private const val DESIRED_CELL_SIZE = 50F
+        }
+    }
