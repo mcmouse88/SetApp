@@ -1,11 +1,10 @@
 package com.mcmouse88.customviewlev2
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import com.mcmouse88.customviewlev2.TicTacToeField.Memento
 import com.mcmouse88.customviewlev2.databinding.ActivityMainBinding
 import kotlin.random.Random
-import com.mcmouse88.customviewlev2.TicTacToeField.Memento
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         val field = binding.ticTacToeField.ticTacToeField
         outState.putParcelable(KEY_FIELD, field!!.saveState())
         outState.putBoolean(KEY_IS_FIRST_PLAYER, isFirstPlayer)
