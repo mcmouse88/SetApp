@@ -1,7 +1,5 @@
 package com.mcmouse88.user_list.model
 
-
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mcmouse88.user_list.R
 import com.mcmouse88.user_list.databinding.ItemUserBinding
+import com.mcmouse88.user_list.viewmodel.UserListItem
 
 interface UserActionListener {
 
@@ -26,8 +25,7 @@ class UsersAdapter(
     private val userListener: UserActionListener
 ) : RecyclerView.Adapter<UsersAdapter.AdapterViewHolder>(), View.OnClickListener {
 
-    var users: List<User> = emptyList()
-
+    var users: List<UserListItem> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -60,7 +58,6 @@ class UsersAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemUserBinding.inflate(inflater, parent, false)
 
-        binding.root.setOnClickListener(this)
         binding.ivMore.setOnClickListener(this)
 
         return AdapterViewHolder(binding)
@@ -72,11 +69,23 @@ class UsersAdapter(
      * будут возникать баги.
      */
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
-        val user = users[position]
+        val userListItem = users[position]
+        val user = userListItem.user
         holder.binding.apply {
             holder.itemView.tag = user
             ivMore.tag = user
-            tvUserName.text = user.name
+
+            if (userListItem.isProgress) {
+                ivMore.visibility = View.INVISIBLE
+                itemProgressBar.visibility = View.VISIBLE
+                holder.binding.root.setOnClickListener(null)
+            } else {
+                ivMore.visibility = View.VISIBLE
+                itemProgressBar.visibility = View.GONE
+                holder.binding.root.setOnClickListener(this@UsersAdapter)
+            }
+
+                tvUserName.text = user.name
             tvUserCompany.text = user.company
             if (user.photo.isNotBlank()) {
                 Glide.with(ivAvatar.context)
@@ -96,7 +105,7 @@ class UsersAdapter(
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(view.context, view)
         val user = view.tag as User
-        val position = users.indexOfFirst { it.id == user.id }
+        val position = users.indexOfFirst { it.user.id == user.id }
         popupMenu.menu.add(
             0,
             ID_MOVE_UP,

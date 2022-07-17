@@ -2,7 +2,10 @@ package com.mcmouse88.user_list.model
 
 import com.github.javafaker.Faker
 import com.mcmouse88.user_list.UserNotFoundException
+import com.mcmouse88.user_list.screens.tasks.Task
+import com.mcmouse88.user_list.screens.tasks.TaskImpl
 import java.util.*
+import java.util.concurrent.Callable
 
 typealias UserListener = (users: List<User>) -> Unit
 
@@ -12,7 +15,14 @@ class UserService {
 
     private val listeners = mutableSetOf<UserListener>()
 
-    init {
+    private var isListLoad = false
+
+    /**
+     * В любой [Callable], который мы передаем внутрь нашего таска, мы можем писать ассинхронный
+     * код
+     */
+    fun loadUsers(): Task<Unit> = TaskImpl {
+        Thread.sleep(2_000)
         val faker = Faker.instance()
         IMAGES.shuffle()
         val generatedUsers = (1..100).map {
@@ -24,53 +34,64 @@ class UserService {
             )
         }
         users = generatedUsers.toMutableList()
+        isListLoad = true
+        notifyChanges()
     }
-
-    fun getUsers(): List<User> = users
 
     /**
      * Метод [indexOfFirst] работает по следубщему принципу: проходит по элементам массива,
      * и исходя из условия если находит первый элемент, который совпадает с условием, то возвращает
      * его индекс в массиве, если не находит ни одного элемента, удовлетворяющего условию, то возвращает -1
      */
-    fun deleteUser(user: User) {
+    fun deleteUser(user: User): Task<Unit> = TaskImpl {
+        Thread.sleep(2_000)
         val indexToDelete = users.indexOfFirst { it.id == user.id }
         if (indexToDelete != -1) users.removeAt(indexToDelete)
         notifyChanges()
     }
+
 
     /**
      * для того, чтобы поменять элементы местами используется статический метод [swap()] класса
      * [Collections], в который передается список, в котором будут происходить изменения,
      * индекс элемента, у которого будет менятся позиция, и новый индекс
      */
-    fun moveUser(user: User, moveBy: Int) {
+    fun moveUser(user: User, moveBy: Int): Task<Unit> = TaskImpl(Callable {
+        Thread.sleep(2_000)
         val oldIndex = users.indexOfFirst { it.id == user.id }
-        if (oldIndex == -1) return
+        if (oldIndex == -1) return@Callable
         val newIndex = oldIndex + moveBy
-        if (newIndex < 0 || newIndex > users.size) return
+        if (newIndex < 0 || newIndex > users.size) return@Callable
         Collections.swap(users, oldIndex, newIndex)
         notifyChanges()
-    }
+    })
+
+
 
     fun addListener(listener: UserListener) {
         listeners.add(listener)
-        listener.invoke(users)
+        if (isListLoad) {
+            listener.invoke(users)
+        }
     }
 
     fun removeListener(listener: UserListener) {
         listeners.remove(listener)
     }
 
-    fun getUserById(userId: Long): UserDetail {
+    fun getUserById(userId: Long): Task<UserDetail> = TaskImpl {
+        Thread.sleep(2_000)
         val user = users.firstOrNull { it.id == userId } ?: throw UserNotFoundException()
-        return UserDetail(
+        UserDetail(
             user = user,
             detail = Faker.instance().lorem().paragraphs(3).joinToString("\n\n")
         )
     }
 
+
+
     private fun notifyChanges() {
+        if (!isListLoad) return
         listeners.forEach { it.invoke(users) }
     }
 

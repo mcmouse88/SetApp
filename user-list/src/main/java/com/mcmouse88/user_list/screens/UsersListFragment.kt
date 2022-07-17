@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mcmouse88.user_list.App
 import com.mcmouse88.user_list.databinding.FragmentUsersListBinding
-import com.mcmouse88.user_list.model.User
-import com.mcmouse88.user_list.model.UserActionListener
-import com.mcmouse88.user_list.model.UserService
 import com.mcmouse88.user_list.model.UsersAdapter
+import com.mcmouse88.user_list.screens.tasks.EmptyResult
+import com.mcmouse88.user_list.screens.tasks.ErrorResult
+import com.mcmouse88.user_list.screens.tasks.PendingResult
+import com.mcmouse88.user_list.screens.tasks.SuccessResult
 import com.mcmouse88.user_list.viewmodel.UserListViewModel
 
 class UsersListFragment : Fragment() {
@@ -25,21 +24,7 @@ class UsersListFragment : Fragment() {
     private val userListViewModel by viewModels<UserListViewModel> { factory() }
 
     private val adapter by lazy {
-        UsersAdapter(
-            object : UserActionListener {
-
-                override fun onUserMove(user: User, moveBy: Int) {
-                    userListViewModel.moveUser(user, moveBy)
-                }
-
-                override fun onUserDelete(user: User) {
-                    userListViewModel.deleteUser(user)
-                }
-
-                override fun onUserDetail(user: User) {
-                    navigator().showDetail(user)
-                }
-            })
+        UsersAdapter(userListViewModel)
     }
 
     /**
@@ -56,15 +41,44 @@ class UsersListFragment : Fragment() {
     ): View {
         _binding = FragmentUsersListBinding.inflate(inflater, container, false)
 
+        userListViewModel.users.observe(viewLifecycleOwner) {
+            hideItemView()
+            when(it) {
+                is SuccessResult -> {
+                    binding.rvListUsers.visibility = View.VISIBLE
+                    adapter.users = it.data
+                }
+                is ErrorResult -> {
+                    binding.containerTryAgain.visibility = View.VISIBLE
+                }
+                is PendingResult -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is EmptyResult -> {
+                    binding.tvNoUsers.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        userListViewModel.actionShowDetails.observe(viewLifecycleOwner) {
+            it.getValue()?.let { user -> navigator().showDetail(user) }
+        }
+
+        userListViewModel.actionShowToast.observe(viewLifecycleOwner) {
+            it.getValue()?.let { messageRes -> navigator().toast(messageRes) }
+        }
+
         val layoutManager = LinearLayoutManager(requireContext())
         binding.rvListUsers.layoutManager = layoutManager
         binding.rvListUsers.adapter = adapter
-
-        userListViewModel.users.observe(viewLifecycleOwner) {
-            adapter.users = it
-        }
-
         return binding.root
+    }
+
+    private fun hideItemView() {
+        binding.rvListUsers.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.containerTryAgain.visibility = View.GONE
+        binding.tvNoUsers.visibility = View.GONE
     }
 
     override fun onDestroy() {

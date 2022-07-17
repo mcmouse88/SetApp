@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity(), Navigator {
         onBackPressed()
     }
 
-    override fun toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    override fun toast(messageRes: Int) {
+        Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

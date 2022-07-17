@@ -8,5 +8,5 @@ interface Navigator {
 
     fun goBack()
 
-    fun toast(message: String)
+    fun toast(messageRes: Int)
 }
