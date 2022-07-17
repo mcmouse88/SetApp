@@ -1,6 +1,7 @@
 package com.mcmouse88.user_list.model
 
 import com.github.javafaker.Faker
+import com.mcmouse88.user_list.UserNotFoundException
 import java.util.*
 
 typealias UserListener = (users: List<User>) -> Unit
@@ -59,6 +60,14 @@ class UserService {
 
     fun removeListener(listener: UserListener) {
         listeners.remove(listener)
+    }
+
+    fun getUserById(userId: Long): UserDetail {
+        val user = users.firstOrNull { it.id == userId } ?: throw UserNotFoundException()
+        return UserDetail(
+            user = user,
+            detail = Faker.instance().lorem().paragraphs(3).joinToString("\n\n")
+        )
     }
 
     private fun notifyChanges() {

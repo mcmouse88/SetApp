@@ -3,4 +3,9 @@
     <string name="move_up">Move Up</string>
     <string name="move_down">Move Down</string>
     <string name="remove">Remove</string>
+    <string name="delete">Delete</string>
+    <string name="failed_to_load_users">Failed to load users</string>
+    <string name="try_again">Try Again</string>
+    <string name="no_users">No users</string>
+    <string name="user_has_been_delete">User: %1$s has been delete</string>
 </resources>
