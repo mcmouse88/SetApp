@@ -11,7 +11,7 @@ import com.mcmouse88.user_list.screens.tasks.Result
 import com.mcmouse88.user_list.screens.tasks.SuccessResult
 
 class UserDetailViewModel(
-    private val userService: UserService
+    private val userService: UserService,
 ) : BaseViewModel() {
 
     private val _state = MutableLiveData<StateUserDetailFragment>()
@@ -35,7 +35,8 @@ class UserDetailViewModel(
     }
 
     fun loadUser(userId: Long) {
-        if (currentState.userDetailResult is SuccessResult) return
+        // if (currentState.userDetailResult is SuccessResult) return
+        if (currentState.userDetailResult !is EmptyResult) return
 
         _state.value = currentState.copy(userDetailResult = PendingResult())
         userService.getUserById(userId)
