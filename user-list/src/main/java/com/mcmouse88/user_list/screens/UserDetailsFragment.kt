@@ -19,11 +19,8 @@ class UserDetailsFragment : Fragment() {
     private val binding: FragmentUserDetailsBinding
         get() = _binding ?: throw NullPointerException("FragmentUserDetailsBinding is null")
 
-    private val userDetailViewModel by viewModels<UserDetailViewModel> { factory() }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        userDetailViewModel.loadUser(requireArguments().getLong(ARG_USER_ID))
+    private val userDetailViewModel by viewModelCreator<UserDetailViewModel> {
+        UserDetailViewModel(it.userService, requireArguments().getLong(ARG_USER_ID))
     }
 
     override fun onCreateView(

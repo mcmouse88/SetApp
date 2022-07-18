@@ -12,6 +12,7 @@ import com.mcmouse88.user_list.screens.tasks.SuccessResult
 
 class UserDetailViewModel(
     private val userService: UserService,
+    private val userId: Long
 ) : BaseViewModel() {
 
     private val _state = MutableLiveData<StateUserDetailFragment>()
@@ -32,22 +33,7 @@ class UserDetailViewModel(
             userDetailResult = EmptyResult(),
             deletingInProgress = false
         )
-    }
-
-    fun loadUser(userId: Long) {
-        // if (currentState.userDetailResult is SuccessResult) return
-        if (currentState.userDetailResult !is EmptyResult) return
-
-        _state.value = currentState.copy(userDetailResult = PendingResult())
-        userService.getUserById(userId)
-            .onSuccess {
-                _state.value = currentState.copy(userDetailResult = SuccessResult(it))
-            }
-            .onError {
-                _actionShowToast.value = EventInViewModel(R.string.cant_load_user_details)
-                _actionGoBack.value = EventInViewModel(Unit)
-            }
-            .autoCancel()
+        loadUser()
     }
 
     fun deleteUser() {
@@ -62,6 +48,22 @@ class UserDetailViewModel(
             .onError {
                 _state.value = currentState.copy(deletingInProgress = false)
                 _actionShowToast.value = EventInViewModel(R.string.cant_delete_user)
+            }
+            .autoCancel()
+    }
+
+    private fun loadUser() {
+        // if (currentState.userDetailResult is SuccessResult) return
+        if (currentState.userDetailResult !is EmptyResult) return
+
+        _state.value = currentState.copy(userDetailResult = PendingResult())
+        userService.getUserById(userId)
+            .onSuccess {
+                _state.value = currentState.copy(userDetailResult = SuccessResult(it))
+            }
+            .onError {
+                _actionShowToast.value = EventInViewModel(R.string.cant_load_user_details)
+                _actionGoBack.value = EventInViewModel(Unit)
             }
             .autoCancel()
     }
