@@ -1,13 +1,10 @@
 package com.mcmouse88.user_list.model
-
-
-
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mcmouse88.user_list.R
@@ -20,6 +17,8 @@ interface UserActionListener {
     fun onUserDelete(user: User)
 
     fun onUserDetail(user: User)
+
+    fun onUserFire(user: User)
 }
 
 class UsersAdapter(
@@ -28,10 +27,11 @@ class UsersAdapter(
 
     var users: List<User> = emptyList()
 
-        @SuppressLint("NotifyDataSetChanged")
         set(value) {
+            val diffCallBack = UserDiffCallBack(field, value)
+            val diffResult = DiffUtil.calculateDiff(diffCallBack)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     class AdapterViewHolder(
@@ -73,11 +73,14 @@ class UsersAdapter(
      */
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
         val user = users[position]
+        val context = holder.itemView.context
         holder.binding.apply {
             holder.itemView.tag = user
             ivMore.tag = user
             tvUserName.text = user.name
-            tvUserCompany.text = user.company
+
+            tvUserCompany.text = if (user.company.isNotBlank()) user.company
+            else context.getString(R.string.unemployed)
             if (user.photo.isNotBlank()) {
                 Glide.with(ivAvatar.context)
                     .load(user.photo)
@@ -120,8 +123,17 @@ class UsersAdapter(
             view.context.getString(R.string.remove)
         )
 
+        if (user.company.isNotBlank()) {
+            popupMenu.menu.add(
+                0,
+                ID_FIRE,
+                Menu.NONE,
+                view.context.getString(R.string.fire)
+            )
+        }
+
         popupMenu.setOnMenuItemClickListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 ID_MOVE_UP -> {
                     userListener.onUserMove(user, -1)
                 }
@@ -130,6 +142,9 @@ class UsersAdapter(
                 }
                 ID_REMOVE -> {
                     userListener.onUserDelete(user)
+                }
+                ID_FIRE -> {
+                    userListener.onUserFire(user)
                 }
             }
             return@setOnMenuItemClickListener true
@@ -141,5 +156,6 @@ class UsersAdapter(
         private const val ID_MOVE_UP = 1
         private const val ID_MOVE_DOWN = 2
         private const val ID_REMOVE = 3
+        private const val ID_FIRE = 4
     }
 }

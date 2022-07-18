@@ -3,6 +3,7 @@ package com.mcmouse88.user_list
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcmouse88.user_list.databinding.ActivityMainBinding
 import com.mcmouse88.user_list.model.*
@@ -34,11 +35,19 @@ class MainActivity : AppCompatActivity() {
             override fun onUserDetail(user: User) {
                 Toast.makeText(this@MainActivity, "User: ${user.name}", Toast.LENGTH_SHORT).show()
             }
+
+            override fun onUserFire(user: User) {
+                userService.fireUser(user)
+            }
         })
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvListUsers.layoutManager = layoutManager
         binding.rvListUsers.adapter = adapter
+        val itemAnimator = binding.rvListUsers.itemAnimator
+        if (itemAnimator is DefaultItemAnimator) {
+            itemAnimator.supportsChangeAnimations = false
+        }
 
         userService.addListener(userListener)
     }
