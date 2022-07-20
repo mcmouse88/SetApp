@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Choose-Color</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_please_try_again_later">Error! Please try again later</string>
+    <string name="try_again">Try again</string>
+    <string name="change_color">Change Color</string>
+    <string name="request_permission">Request Permission</string>
+    <string name="selected">Selected</string>
+</resources>
