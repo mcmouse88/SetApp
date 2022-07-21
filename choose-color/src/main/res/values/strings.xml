@@ -7,4 +7,6 @@
     <string name="change_color">Change Color</string>
     <string name="request_permission">Request Permission</string>
     <string name="selected">Selected</string>
+    <string name="changed_color_screen_title">Change Color (%1$s)</string>
+    <string name="changed_color">Color has been changed to: %1$s</string>
 </resources>
