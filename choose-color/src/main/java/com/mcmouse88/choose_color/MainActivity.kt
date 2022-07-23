@@ -1,19 +1,24 @@
 package com.mcmouse88.choose_color
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
-import com.mcmouse88.choose_color.views.HasScreenTitle
-import com.mcmouse88.choose_color.views.base.BaseFragment
 import com.mcmouse88.choose_color.views.currentcolor.CurrentColorFragment
+import com.mcmouse88.foundation.ActivityScopeViewModel
+import com.mcmouse88.foundation.views.BaseFragment
+import com.mcmouse88.foundation.views.HasScreenTitle
 
 class MainActivity : AppCompatActivity() {
 
-    private val activityViewModel by viewModels<MainViewModel> { AndroidViewModelFactory(application) }
+    /**
+     * Сама [MainActivity] содержит ссылку на [ViewModel], предназначенную для работы с активити,
+     * которая реализует интерфейс [Navigator] и [UiActions]
+     */
+    private val activityViewModel by viewModels<ActivityScopeViewModel> { AndroidViewModelFactory(application) }
 
     private val fragmentCallBacks = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(
@@ -59,6 +64,14 @@ class MainActivity : AppCompatActivity() {
         activityViewModel.whenActivityActive.resource = null
     }
 
+    /**
+     *  Отвечает за корректное отображение toolBar с кнопкой назад и названием текущего экрана, а
+     *  также частично за возвращение результата обратно на экран, если таковой имеется. Для того,
+     *  чтобы заголовок toolBar динамически менялся при выборе цвета, мы в данном методе проверяем
+     *  реализует ли текущий фрагмент интерфейс [HasScreenTitle] и не равен ли заголовок null.
+     *  Также в каждом фрагменте есть метод [notifyScreenUpdates()], который и сообщает Активити,
+     *  что нужно перерисовать ActionBar, который находится вверху.
+     */
     fun notifyScreenUpdates() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 

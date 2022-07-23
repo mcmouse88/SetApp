@@ -18,6 +18,7 @@ class InMemoryColorsRepository : ColorsRepository {
 
     override fun addListener(listener: ColorListener) {
         listeners += listener
+        listener(currentColor)
     }
 
     override fun removeListener(listener: ColorListener) {
@@ -25,7 +26,7 @@ class InMemoryColorsRepository : ColorsRepository {
     }
 
     override fun getById(id: Long): NamedColor {
-        return AVAILABLE_COLORS.first() { it.id == id }
+        return AVAILABLE_COLORS.first { it.id == id }
     }
 
     companion object {

@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mcmouse88.choose_color.databinding.FragmentCurrentColorBinding
-import com.mcmouse88.choose_color.views.base.BaseFragment
-import com.mcmouse88.choose_color.views.base.BaseScreen
-import com.mcmouse88.choose_color.views.base.screenViewModel
+import com.mcmouse88.foundation.views.BaseFragment
+import com.mcmouse88.foundation.views.BaseScreen
+import com.mcmouse88.foundation.views.screenViewModel
 
 class CurrentColorFragment : BaseFragment() {
 

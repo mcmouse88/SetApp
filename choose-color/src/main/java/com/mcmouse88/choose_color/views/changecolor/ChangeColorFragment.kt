@@ -8,10 +8,10 @@ import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.databinding.FragmentChangeColorBinding
-import com.mcmouse88.choose_color.views.HasScreenTitle
-import com.mcmouse88.choose_color.views.base.BaseFragment
-import com.mcmouse88.choose_color.views.base.BaseScreen
-import com.mcmouse88.choose_color.views.base.screenViewModel
+import com.mcmouse88.foundation.views.HasScreenTitle
+import com.mcmouse88.foundation.views.BaseFragment
+import com.mcmouse88.foundation.views.BaseScreen
+import com.mcmouse88.foundation.views.screenViewModel
 
 class ChangeColorFragment : BaseFragment(), HasScreenTitle {
 
@@ -36,7 +36,15 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
         binding.buttonSave.setOnClickListener { viewModel.onSavePressed() }
         binding.buttonCancel.setOnClickListener { viewModel.onCancelPressed() }
 
-        return binding.rvColor
+        viewModel.colorList.observe(viewLifecycleOwner) {
+            adapter.items = it
+        }
+
+        viewModel.screenTitle.observe(viewLifecycleOwner) {
+            notifyScreenUpdates()
+        }
+
+        return binding.root
     }
 
     private fun setupLayoutManager(binding: FragmentChangeColorBinding, adapter: ColorsAdapter) {

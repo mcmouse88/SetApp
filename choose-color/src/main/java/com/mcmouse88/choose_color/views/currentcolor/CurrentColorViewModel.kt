@@ -6,9 +6,9 @@ import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.model.colors.ColorListener
 import com.mcmouse88.choose_color.model.colors.ColorsRepository
 import com.mcmouse88.choose_color.model.colors.NamedColor
-import com.mcmouse88.choose_color.views.Navigator
-import com.mcmouse88.choose_color.views.UiActions
-import com.mcmouse88.choose_color.views.base.BaseViewModel
+import com.mcmouse88.foundation.navigator.Navigator
+import com.mcmouse88.foundation.uiactions.UiActions
+import com.mcmouse88.foundation.views.BaseViewModel
 import com.mcmouse88.choose_color.views.changecolor.ChangeColorFragment
 
 class CurrentColorViewModel(
