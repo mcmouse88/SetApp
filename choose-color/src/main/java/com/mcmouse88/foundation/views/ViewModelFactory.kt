@@ -7,11 +7,11 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.savedstate.SavedStateRegistryOwner
 import com.mcmouse88.choose_color.App
 import com.mcmouse88.foundation.ARG_SCREEN
 import com.mcmouse88.foundation.ActivityScopeViewModel
+import com.mcmouse88.foundation.BaseApplication
 import java.lang.reflect.Constructor
 
 /**
@@ -20,13 +20,12 @@ import java.lang.reflect.Constructor
  * scope самого экрана в виде переменной [screen]
  */
 inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<VM> {
-    val application = requireActivity().application as App
+    val application = requireActivity().application as BaseApplication
     val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
 
-    val provider = ViewModelProvider(requireActivity(), AndroidViewModelFactory(application))
-    val mainViewModel = provider[ActivityScopeViewModel::class.java]
+    val activityScopeViewModel = (requireActivity() as FragmentsHolder).getActivityScopeViewModel()
 
-    val dependencies = listOf(screen, mainViewModel) + application.models
+    val dependencies = listOf(screen, activityScopeViewModel) + application.repositories
     ViewModelFactory(dependencies, this)
 }
 
