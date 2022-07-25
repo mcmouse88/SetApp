@@ -39,4 +39,15 @@
         app:layout_constraintEnd_toStartOf="@id/button_save"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <include layout="@layout/part_result" />
+
+    <ProgressBar
+        android:id="@+id/save_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/button_save"
+        app:layout_constraintTop_toTopOf="@id/button_save" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

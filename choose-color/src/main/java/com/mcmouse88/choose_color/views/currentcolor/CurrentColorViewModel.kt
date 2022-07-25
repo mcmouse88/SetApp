@@ -1,15 +1,22 @@
 package com.mcmouse88.choose_color.views.currentcolor
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.model.colors.ColorListener
 import com.mcmouse88.choose_color.model.colors.ColorsRepository
 import com.mcmouse88.choose_color.model.colors.NamedColor
+import com.mcmouse88.choose_color.views.changecolor.ChangeColorFragment
+import com.mcmouse88.foundation.model.ErrorResult
+import com.mcmouse88.foundation.model.PendingResult
+import com.mcmouse88.foundation.model.SuccessResult
+import com.mcmouse88.foundation.model.takeSuccess
 import com.mcmouse88.foundation.navigator.Navigator
 import com.mcmouse88.foundation.uiactions.UiActions
 import com.mcmouse88.foundation.views.BaseViewModel
-import com.mcmouse88.choose_color.views.changecolor.ChangeColorFragment
+import com.mcmouse88.foundation.views.LiveResult
+import com.mcmouse88.foundation.views.MutableLiveResult
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CurrentColorViewModel(
     private val navigator: Navigator,
@@ -17,16 +24,29 @@ class CurrentColorViewModel(
     private val colorsRepository: ColorsRepository
 ) : BaseViewModel() {
 
-    private val _currentColor = MutableLiveData<NamedColor>()
-    val currentColor: LiveData<NamedColor>
+    /**
+     * Так как изначально у нас еще данных нет, мы можем сразу передать в LiveData
+     * [PendingResult]
+     */
+    private val _currentColor = MutableLiveResult<NamedColor>(PendingResult())
+    val currentColor: LiveResult<NamedColor>
         get() = _currentColor
 
     private val colorListener: ColorListener = {
-        _currentColor.postValue(it)
+        _currentColor.postValue(SuccessResult(it))
     }
 
+    /**
+     * Сымитируем при первом вызове ошибку при получении результата, чтобы отобразить возможность
+     * повторить запрос, при повторном запросе в методе [tryAgain()] будет возвращен
+     * успешный результат
+     */
     init {
-        colorsRepository.addListener(colorListener)
+        viewModelScope.launch {
+            delay(2_000)
+            // colorsRepository.addListener(colorListener)
+            _currentColor.postValue(ErrorResult(RuntimeException()))
+        }
     }
 
     override fun onCleared() {
@@ -43,8 +63,16 @@ class CurrentColorViewModel(
     }
 
     fun changeColor() {
-        val currentColor = _currentColor.value ?: return
+        val currentColor = _currentColor.value.takeSuccess() ?: return
         val screen = ChangeColorFragment.Screen(currentColor.id)
         navigator.launch(screen)
+    }
+
+    fun tryAgain() {
+        viewModelScope.launch {
+            _currentColor.postValue(PendingResult())
+            delay(2_000)
+            colorsRepository.addListener(colorListener)
+        }
     }
 }

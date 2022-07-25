@@ -8,10 +8,8 @@ import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.databinding.FragmentChangeColorBinding
-import com.mcmouse88.foundation.views.HasScreenTitle
-import com.mcmouse88.foundation.views.BaseFragment
-import com.mcmouse88.foundation.views.BaseScreen
-import com.mcmouse88.foundation.views.screenViewModel
+import com.mcmouse88.choose_color.views.renderSimpleResult
+import com.mcmouse88.foundation.views.*
 
 class ChangeColorFragment : BaseFragment(), HasScreenTitle {
 
@@ -36,23 +34,32 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
         binding.buttonSave.setOnClickListener { viewModel.onSavePressed() }
         binding.buttonCancel.setOnClickListener { viewModel.onCancelPressed() }
 
-        viewModel.colorList.observe(viewLifecycleOwner) {
-            adapter.items = it
+        viewModel.viewState.observe(viewLifecycleOwner) { result ->
+            renderSimpleResult(binding.root, result) { viewState ->
+                adapter.items = viewState.colorsList
+                binding.buttonSave.visibility = if (viewState.showSaveButton) View.VISIBLE else View.INVISIBLE
+                binding.buttonCancel.visibility = if (viewState.showCancelButton) View.VISIBLE else View.INVISIBLE
+                binding.saveProgressBar.visibility = if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
+            }
         }
 
         viewModel.screenTitle.observe(viewLifecycleOwner) {
             notifyScreenUpdates()
         }
 
+        onTryAgain(binding.root) {
+            viewModel.tryAgain()
+        }
+
         return binding.root
     }
 
     private fun setupLayoutManager(binding: FragmentChangeColorBinding, adapter: ColorsAdapter) {
-        binding.rvColor.viewTreeObserver.addOnGlobalLayoutListener(
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    binding.rvColor.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    val width = binding.rvColor.width
+                    binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val width = binding.root.width
                     val itemWidth = resources.getDimensionPixelSize(R.dimen.item_width)
                     val column = width / itemWidth
                     binding.rvColor.adapter = adapter
@@ -60,4 +67,14 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
                 }
             })
     }
+
+    /**
+     * data class для отображения интерфейса в зависимости от состояния результатов
+     */
+    data class ViewState(
+        val colorsList: List<NamedColorListItem>,
+        val showSaveButton: Boolean,
+        val showCancelButton: Boolean,
+        val showProgressBar: Boolean
+    )
 }

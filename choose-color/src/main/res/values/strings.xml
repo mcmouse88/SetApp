@@ -8,5 +8,7 @@
     <string name="request_permission">Request Permission</string>
     <string name="selected">Selected</string>
     <string name="changed_color_screen_title">Change Color (%1$s)</string>
+    <string name="changed_color_screen_title_simple">Change Color</string>
     <string name="changed_color">Color has been changed to: %1$s</string>
+    <string name="error_happened">Can\'t save color</string>
 </resources>
