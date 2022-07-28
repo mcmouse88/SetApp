@@ -40,15 +40,17 @@ sealed class Result<T> {
     }
 }
 
+sealed class FinalResult<T> : Result<T>()
+
 class PendingResult<T> : Result<T>()
 
 class SuccessResult<T>(
     val data: T
-) : Result<T>()
+) : FinalResult<T>()
 
 class ErrorResult<T>(
     val exception: Exception
-) : Result<T>()
+) : FinalResult<T>()
 
 fun<T> Result<T>?.takeSuccess(): T? {
     return if (this is SuccessResult) this.data

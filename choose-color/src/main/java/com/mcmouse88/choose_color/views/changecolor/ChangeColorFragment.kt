@@ -67,14 +67,4 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
                 }
             })
     }
-
-    /**
-     * data class для отображения интерфейса в зависимости от состояния результатов
-     */
-    data class ViewState(
-        val colorsList: List<NamedColorListItem>,
-        val showSaveButton: Boolean,
-        val showCancelButton: Boolean,
-        val showProgressBar: Boolean
-    )
 }

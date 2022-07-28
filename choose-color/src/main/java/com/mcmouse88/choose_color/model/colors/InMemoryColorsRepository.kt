@@ -1,32 +1,53 @@
 package com.mcmouse88.choose_color.model.colors
 
 import android.graphics.Color
+import com.mcmouse88.foundation.model.tasks.Task
+import com.mcmouse88.foundation.model.tasks.TasksFactory
+import com.mcmouse88.foundation.model.tasks.ThreadUtils
 
-class InMemoryColorsRepository : ColorsRepository {
+class InMemoryColorsRepository(
+    private val tasksFactory: TasksFactory,
+    private val thread: ThreadUtils
+) : ColorsRepository {
 
-    override var currentColor: NamedColor = AVAILABLE_COLORS[0]
-        set(value) {
-            if (field != value) {
-                field = value
-                listeners.forEach { it(value) }
-            }
-        }
+    private var currentColor: NamedColor = AVAILABLE_COLORS[0]
 
     private val listeners = mutableSetOf<ColorListener>()
 
-    override fun getAvailableColors(): List<NamedColor> = AVAILABLE_COLORS
+    /**
+     * При вызове лямбды метода [createTask] последняя строчка это возвращаемое значение, поэтому
+     * можно обойтись и без [return@createTask], но оставлю для наглядности
+     */
+    override fun getAvailableColors(): Task<List<NamedColor>> = tasksFactory.createTask {
+        thread.sleep(2_000)
+        return@createTask AVAILABLE_COLORS
+    }
 
     override fun addListener(listener: ColorListener) {
         listeners += listener
-        listener(currentColor)
     }
 
     override fun removeListener(listener: ColorListener) {
         listeners -= listener
     }
 
-    override fun getById(id: Long): NamedColor {
-        return AVAILABLE_COLORS.first { it.id == id }
+    override fun getById(id: Long): Task<NamedColor> = tasksFactory.createTask {
+        thread.sleep(2_000)
+        return@createTask AVAILABLE_COLORS.first { it.id == id }
+    }
+
+    override fun getCurrentColor(): Task<NamedColor> = tasksFactory.createTask {
+        thread.sleep(2_000)
+        return@createTask currentColor
+    }
+
+    override fun setCurrentColor(color: NamedColor): Task<Unit> = tasksFactory.createTask {
+        thread.sleep(2_000)
+        if (currentColor != currentColor) {
+            currentColor = color
+            listeners.forEach { it(color) }
+        }
+
     }
 
     companion object {
