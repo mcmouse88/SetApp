@@ -8,6 +8,7 @@ import com.mcmouse88.choose_color.views.changecolor.ChangeColorFragment
 import com.mcmouse88.foundation.model.PendingResult
 import com.mcmouse88.foundation.model.SuccessResult
 import com.mcmouse88.foundation.model.takeSuccess
+import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
 import com.mcmouse88.foundation.navigator.Navigator
 import com.mcmouse88.foundation.uiactions.UiActions
 import com.mcmouse88.foundation.views.BaseViewModel
@@ -17,8 +18,9 @@ import com.mcmouse88.foundation.views.MutableLiveResult
 class CurrentColorViewModel(
     private val navigator: Navigator,
     private val uiActions: UiActions,
-    private val colorsRepository: ColorsRepository
-) : BaseViewModel() {
+    private val colorsRepository: ColorsRepository,
+    dispatcher: Dispatcher
+) : BaseViewModel(dispatcher) {
 
     /**
      * Так как изначально у нас еще данных нет, мы можем сразу передать в LiveData

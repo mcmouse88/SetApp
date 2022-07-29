@@ -2,12 +2,12 @@ package com.mcmouse88.choose_color.model.colors
 
 import android.graphics.Color
 import com.mcmouse88.foundation.model.tasks.Task
-import com.mcmouse88.foundation.model.tasks.TasksFactory
 import com.mcmouse88.foundation.model.tasks.ThreadUtils
+import com.mcmouse88.foundation.model.tasks.factories.TasksFactory
 
 class InMemoryColorsRepository(
     private val tasksFactory: TasksFactory,
-    private val thread: ThreadUtils
+    private val threadUtils: ThreadUtils
 ) : ColorsRepository {
 
     private var currentColor: NamedColor = AVAILABLE_COLORS[0]
@@ -19,7 +19,7 @@ class InMemoryColorsRepository(
      * можно обойтись и без [return@createTask], но оставлю для наглядности
      */
     override fun getAvailableColors(): Task<List<NamedColor>> = tasksFactory.createTask {
-        thread.sleep(2_000)
+        threadUtils.sleep(2_000)
         return@createTask AVAILABLE_COLORS
     }
 
@@ -32,18 +32,18 @@ class InMemoryColorsRepository(
     }
 
     override fun getById(id: Long): Task<NamedColor> = tasksFactory.createTask {
-        thread.sleep(2_000)
+        threadUtils.sleep(2_000)
         return@createTask AVAILABLE_COLORS.first { it.id == id }
     }
 
     override fun getCurrentColor(): Task<NamedColor> = tasksFactory.createTask {
-        thread.sleep(2_000)
+        threadUtils.sleep(2_000)
         return@createTask currentColor
     }
 
     override fun setCurrentColor(color: NamedColor): Task<Unit> = tasksFactory.createTask {
-        thread.sleep(2_000)
-        if (currentColor != currentColor) {
+        threadUtils.sleep(2_000)
+        if (currentColor != color) {
             currentColor = color
             listeners.forEach { it(color) }
         }

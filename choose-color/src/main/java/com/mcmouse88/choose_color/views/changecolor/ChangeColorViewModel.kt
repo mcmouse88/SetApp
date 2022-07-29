@@ -12,7 +12,8 @@ import com.mcmouse88.foundation.model.ErrorResult
 import com.mcmouse88.foundation.model.FinalResult
 import com.mcmouse88.foundation.model.PendingResult
 import com.mcmouse88.foundation.model.SuccessResult
-import com.mcmouse88.foundation.model.tasks.TasksFactory
+import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
+import com.mcmouse88.foundation.model.tasks.factories.TasksFactory
 import com.mcmouse88.foundation.navigator.Navigator
 import com.mcmouse88.foundation.uiactions.UiActions
 import com.mcmouse88.foundation.views.BaseViewModel
@@ -26,8 +27,9 @@ class ChangeColorViewModel(
     private val uiActions: UiActions,
     private val colorsRepository: ColorsRepository,
     private val tasksFactory: TasksFactory,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel(), ColorsAdapter.Listener {
+    savedStateHandle: SavedStateHandle,
+    dispatcher: Dispatcher
+) : BaseViewModel(dispatcher), ColorsAdapter.Listener {
 
     private val _availableColors = MutableLiveResult<List<NamedColor>>(PendingResult())
     private val _currentColorId =

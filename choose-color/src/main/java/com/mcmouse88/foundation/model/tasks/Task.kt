@@ -5,6 +5,11 @@ import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
 
 typealias TaskListener<T> = (FinalResult<T>) -> Unit
 
+class CanceledException(
+    message: String? = null,
+    originException: Exception? = null
+) : Exception(message, originException)
+
 interface Task<T> {
 
     /**

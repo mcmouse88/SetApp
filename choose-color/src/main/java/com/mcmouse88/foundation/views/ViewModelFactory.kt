@@ -8,7 +8,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
-import com.mcmouse88.choose_color.App
 import com.mcmouse88.foundation.ARG_SCREEN
 import com.mcmouse88.foundation.ActivityScopeViewModel
 import com.mcmouse88.foundation.BaseApplication
@@ -25,7 +24,7 @@ inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<
 
     val activityScopeViewModel = (requireActivity() as FragmentsHolder).getActivityScopeViewModel()
 
-    val dependencies = listOf(screen, activityScopeViewModel) + application.repositories
+    val dependencies = listOf(screen, activityScopeViewModel) + application.singletonScopeDependencies
     ViewModelFactory(dependencies, this)
 }
 

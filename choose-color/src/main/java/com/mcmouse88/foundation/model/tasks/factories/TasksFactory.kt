@@ -1,6 +1,6 @@
-package com.mcmouse88.foundation.model.tasks
+package com.mcmouse88.foundation.model.tasks.factories
 
-import com.mcmouse88.foundation.model.Repository
+import com.mcmouse88.foundation.model.tasks.Task
 
 typealias TaskBody<T> = () -> T
 
@@ -12,7 +12,7 @@ typealias TaskBody<T> = () -> T
  * получать данные по сети или из базы данных и т.д., и возвращать тип T, то есть сам результат
  * выполнения задачи.
  */
-interface TasksFactory : Repository {
+interface TasksFactory {
 
     fun<T> createTask(body: TaskBody<T>): Task<T>
 }

@@ -75,4 +75,9 @@ class MainActivity : AppCompatActivity(), FragmentsHolder {
         super.onPause()
         activityViewModel.navigator.setTarget(null)
     }
+
+    override fun onBackPressed() {
+        navigator.onBackPressed()
+        super.onBackPressed()
+    }
 }
