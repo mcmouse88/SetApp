@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mcmouse88.choose_color.databinding.FragmentCurrentColorBinding
+import com.mcmouse88.choose_color.views.onTryAgain
 import com.mcmouse88.choose_color.views.renderSimpleResult
 import com.mcmouse88.foundation.views.BaseFragment
 import com.mcmouse88.foundation.views.BaseScreen
-import com.mcmouse88.foundation.views.onTryAgain
 import com.mcmouse88.foundation.views.screenViewModel
 
 class CurrentColorFragment : BaseFragment() {
@@ -38,6 +38,8 @@ class CurrentColorFragment : BaseFragment() {
         }
 
         binding.buttonChangeColor.setOnClickListener { viewModel.changeColor() }
+
+        binding.buttonAskPermission.setOnClickListener { viewModel.requestPermissions() }
 
         onTryAgain(binding.root) {
             viewModel.tryAgain()

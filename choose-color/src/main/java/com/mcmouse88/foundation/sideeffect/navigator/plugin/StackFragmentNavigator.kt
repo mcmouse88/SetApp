@@ -1,26 +1,31 @@
-package com.mcmouse88.foundation.navigator
+@file:Suppress("DEPRECATION")
+
+package com.mcmouse88.foundation.sideeffect.navigator.plugin
 
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.mcmouse88.foundation.ARG_SCREEN
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import com.mcmouse88.foundation.sideeffect.SideEffectImplementation
+import com.mcmouse88.foundation.sideeffect.navigator.Navigator
 import com.mcmouse88.foundation.utils.Event
 import com.mcmouse88.foundation.views.BaseFragment
 import com.mcmouse88.foundation.views.BaseScreen
+import com.mcmouse88.foundation.views.BaseScreen.Companion.ARG_SCREEN
 import com.mcmouse88.foundation.views.HasScreenTitle
 
 class StackFragmentNavigator(
-    private val activity: AppCompatActivity,
     @IdRes private val containerId: Int,
     private val defaultTitle: String,
     private val animations: Animations,
     private val initialScreen: () -> BaseScreen
-) : Navigator {
+) : SideEffectImplementation(), Navigator, LifecycleObserver {
 
     private var result: Event<Any>? = null
 
@@ -31,7 +36,7 @@ class StackFragmentNavigator(
             view: View,
             savedInstanceState: Bundle?
         ) {
-            notifyScreenUpdates()
+            onRequestUpdates()
             publishResults(fragment)
         }
     }
@@ -44,45 +49,51 @@ class StackFragmentNavigator(
         if (result != null) {
             this.result = Event(result)
         }
-        activity.onBackPressed()
+        requireActivity().onBackPressed()
     }
 
     /**
      * [onCreate()] и [onDestroy()] методы жизненного цикла [StackFragmentNavigator], так он
      * работает на стороне Активити
      */
-    fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             launchFragment(
                 screen = initialScreen(),
                 addToBackStack = false
             )
         }
-        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallBacks, false)
+        requireActivity().supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallBacks, false)
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
-        activity.supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentCallBacks)
+        requireActivity().supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentCallBacks)
     }
 
-    fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         val fragment = getCurrentFragment()
-        if (fragment is BaseFragment) fragment.viewModel.onBackPressed()
+        return if (fragment is BaseFragment) fragment.viewModel.onBackPressed() else false
     }
 
-    fun notifyScreenUpdates() {
+    override fun onSupportNavigateUp(): Boolean {
+        requireActivity().onBackPressed()
+        return true
+    }
+
+    override fun onRequestUpdates() {
         val fragment = getCurrentFragment()
 
-        if (activity.supportFragmentManager.backStackEntryCount > 0) {
-            activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (requireActivity().supportFragmentManager.backStackEntryCount > 0) {
+            requireActivity().supportActionBar?.setDisplayHomeAsUpEnabled(true)
         } else {
-            activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            requireActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
         }
 
         if (fragment is HasScreenTitle && fragment.getScreenTitle() != null) {
-            activity.supportActionBar?.title = fragment.getScreenTitle()
+            requireActivity().supportActionBar?.title = fragment.getScreenTitle()
         } else {
-            activity.supportActionBar?.title = defaultTitle
+            requireActivity().supportActionBar?.title = defaultTitle
         }
     }
 
@@ -90,7 +101,7 @@ class StackFragmentNavigator(
         val fragment = screen.javaClass.enclosingClass.newInstance() as Fragment
 
         fragment.arguments = bundleOf(ARG_SCREEN to screen)
-        val transaction = activity.supportFragmentManager.beginTransaction()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
         if (addToBackStack) transaction.addToBackStack(null)
         transaction.setCustomAnimations(
             animations.enterAnim,
@@ -107,7 +118,7 @@ class StackFragmentNavigator(
         if (fragment is BaseFragment) fragment.viewModel.onResult(result)
     }
 
-    private fun getCurrentFragment(): Fragment? = activity.supportFragmentManager.findFragmentById(containerId)
+    private fun getCurrentFragment(): Fragment? = requireActivity().supportFragmentManager.findFragmentById(containerId)
 
     class Animations(
         @AnimRes val enterAnim: Int,

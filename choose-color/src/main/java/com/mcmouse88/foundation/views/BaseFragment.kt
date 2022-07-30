@@ -10,13 +10,14 @@ import com.mcmouse88.foundation.model.ErrorResult
 import com.mcmouse88.foundation.model.PendingResult
 import com.mcmouse88.foundation.model.Result
 import com.mcmouse88.foundation.model.SuccessResult
+import com.mcmouse88.foundation.views.activity.ActivityDelegateHolder
 
 abstract class BaseFragment : Fragment() {
 
     abstract val viewModel: BaseViewModel
 
     fun notifyScreenUpdates() {
-        (requireActivity() as FragmentsHolder).notifyScreenUpdate()
+        (requireActivity() as ActivityDelegateHolder).delegate.notifyScreenUpdates()
     }
 
     /**
@@ -40,11 +41,5 @@ abstract class BaseFragment : Fragment() {
             is ErrorResult -> onError(result.exception)
             is PendingResult -> onPending()
         }
-    }
-}
-
-fun BaseFragment.onTryAgain(root: View, onTryAgain: () -> Unit) {
-    root.findViewById<Button>(R.id.button_try_again).setOnClickListener {
-        onTryAgain()
     }
 }

@@ -1,8 +1,12 @@
 package com.mcmouse88.foundation.utils
 
+import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
+
 typealias ResourceAction<T> = (T) -> Unit
 
-class ResourceActions<T> {
+class ResourceActions<T>(
+    private val dispatcher: Dispatcher
+) {
 
     /**
      * Переменная для ресурса (в нашем случае ресурсом будет выступать [MainActivity], когда
@@ -15,7 +19,12 @@ class ResourceActions<T> {
     set (newValue) {
         field = newValue
         if (newValue != null) {
-            actions.forEach { it(newValue) }
+            actions.forEach { action ->
+                dispatcher.dispatch {
+                    action(newValue)
+                }
+                action(newValue)
+            }
             actions.clear()
         }
     }

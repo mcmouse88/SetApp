@@ -1,4 +1,4 @@
-package com.mcmouse88.foundation.navigator
+package com.mcmouse88.foundation.sideeffect.navigator
 
 import com.mcmouse88.foundation.views.BaseScreen
 

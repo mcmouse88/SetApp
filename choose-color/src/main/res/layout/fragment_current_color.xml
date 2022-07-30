@@ -36,6 +36,16 @@
         app:layout_constraintStart_toStartOf="@id/color_container"
         app:layout_constraintEnd_toEndOf="@id/color_container"
         app:layout_constraintTop_toBottomOf="@id/color_container"
+        app:layout_constraintBottom_toTopOf="@id/button_ask_permission" />
+
+    <Button
+        android:id="@+id/button_ask_permission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions"
+        app:layout_constraintStart_toStartOf="@id/color_container"
+        app:layout_constraintEnd_toEndOf="@id/color_container"
+        app:layout_constraintTop_toBottomOf="@id/button_change_color"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <include layout="@layout/part_result" />

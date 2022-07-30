@@ -8,8 +8,12 @@ import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.databinding.FragmentChangeColorBinding
+import com.mcmouse88.choose_color.views.onTryAgain
 import com.mcmouse88.choose_color.views.renderSimpleResult
-import com.mcmouse88.foundation.views.*
+import com.mcmouse88.foundation.views.BaseFragment
+import com.mcmouse88.foundation.views.BaseScreen
+import com.mcmouse88.foundation.views.HasScreenTitle
+import com.mcmouse88.foundation.views.screenViewModel
 
 class ChangeColorFragment : BaseFragment(), HasScreenTitle {
 

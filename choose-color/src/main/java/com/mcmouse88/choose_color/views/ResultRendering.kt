@@ -2,6 +2,7 @@ package com.mcmouse88.choose_color.views
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.children
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.databinding.PartResultBinding
@@ -26,4 +27,8 @@ fun<T> BaseFragment.renderSimpleResult(root: ViewGroup, result: Result<T>, onSuc
             onSuccess(data)
         }
     )
+}
+
+fun BaseFragment.onTryAgain(root: View, onTryAgainPressed: () -> Unit) {
+    root.findViewById<Button>(R.id.button_try_again).setOnClickListener { onTryAgainPressed() }
 }

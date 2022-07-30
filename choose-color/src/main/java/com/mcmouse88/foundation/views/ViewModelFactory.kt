@@ -8,9 +8,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
-import com.mcmouse88.foundation.ARG_SCREEN
 import com.mcmouse88.foundation.ActivityScopeViewModel
 import com.mcmouse88.foundation.BaseApplication
+import com.mcmouse88.foundation.views.BaseScreen.Companion.ARG_SCREEN
+import com.mcmouse88.foundation.views.activity.ActivityDelegateHolder
 import java.lang.reflect.Constructor
 
 /**
@@ -22,9 +23,9 @@ inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<
     val application = requireActivity().application as BaseApplication
     val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
 
-    val activityScopeViewModel = (requireActivity() as FragmentsHolder).getActivityScopeViewModel()
+    val activityScopeViewModel = (requireActivity() as ActivityDelegateHolder).delegate.getActivityScopeViewModel()
 
-    val dependencies = listOf(screen, activityScopeViewModel) + application.singletonScopeDependencies
+    val dependencies = listOf(screen) + activityScopeViewModel.sideEffectMediators + application.singletonScopeDependencies
     ViewModelFactory(dependencies, this)
 }
 
