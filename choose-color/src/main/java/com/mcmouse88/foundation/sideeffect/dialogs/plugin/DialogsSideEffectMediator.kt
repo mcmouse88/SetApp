@@ -1,11 +1,11 @@
 package com.mcmouse88.foundation.sideeffect.dialogs.plugin
 
+import com.mcmouse88.foundation.model.Emitter
 import com.mcmouse88.foundation.model.ErrorResult
-import com.mcmouse88.foundation.model.tasks.Task
-import com.mcmouse88.foundation.model.tasks.callback.CallbackTask
-import com.mcmouse88.foundation.model.tasks.callback.Emitter
+import com.mcmouse88.foundation.model.toEmitter
 import com.mcmouse88.foundation.sideeffect.SideEffectMediator
 import com.mcmouse88.foundation.sideeffect.dialogs.Dialogs
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 /**
  * Данный класс работает на стороне ViewModel в качестве посредника, а для реализации мы
@@ -15,10 +15,11 @@ class DialogsSideEffectMediator : SideEffectMediator<DialogsSideEffectImpl>(), D
 
     var retainedState = RetainedState()
 
-    override fun show(dialogConfig: DialogConfig): Task<Boolean> = CallbackTask.create { emitter ->
+    override suspend fun show(dialogConfig: DialogConfig): Boolean = suspendCancellableCoroutine { continuation ->
+        val emitter = continuation.toEmitter()
         if (retainedState.record != null) {
             emitter.emit(ErrorResult(IllegalStateException("Can't launch more then one dialog at a time")))
-            return@create
+            return@suspendCancellableCoroutine
         }
 
         val wrappedEmitter = Emitter.wrap(emitter) {

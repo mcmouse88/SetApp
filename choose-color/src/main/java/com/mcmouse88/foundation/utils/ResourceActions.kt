@@ -1,6 +1,6 @@
 package com.mcmouse88.foundation.utils
 
-import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
+import com.mcmouse88.foundation.model.dispatcher.Dispatcher
 
 typealias ResourceAction<T> = (T) -> Unit
 

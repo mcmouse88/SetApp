@@ -1,9 +1,6 @@
-package com.mcmouse88.foundation.model.tasks.callback
-
-import com.mcmouse88.foundation.model.FinalResult
+package com.mcmouse88.foundation.model
 
 typealias CancelListener = () -> Unit
-typealias ExecutionListener<T> = (Emitter<T>) -> Unit
 
 interface Emitter<T> {
 

@@ -3,11 +3,9 @@ package com.mcmouse88.choose_color
 import android.app.Application
 import com.mcmouse88.choose_color.model.colors.InMemoryColorsRepository
 import com.mcmouse88.foundation.BaseApplication
-import com.mcmouse88.foundation.model.tasks.ThreadUtils
-import com.mcmouse88.foundation.model.tasks.dispatcher.MainThreadDispatcher
-import com.mcmouse88.foundation.model.tasks.factories.ExecutorServiceTaskFactory
-import com.mcmouse88.foundation.model.tasks.factories.HandlerThreadTasksFactory
-import java.util.concurrent.Executors
+import com.mcmouse88.foundation.model.coroutines.DefaultDispatcher
+import com.mcmouse88.foundation.model.coroutines.IoDispatcher
+import kotlinx.coroutines.Dispatchers
 
 /**
  * Точка входа в наше приложение (Обязательно прописать его в манифесте). Является singleton
@@ -16,17 +14,10 @@ import java.util.concurrent.Executors
  */
 class App : Application(), BaseApplication {
 
-    private val singleExecutorFactory = ExecutorServiceTaskFactory(Executors.newSingleThreadExecutor())
-    private val cachedThreadExecutor = ExecutorServiceTaskFactory(Executors.newCachedThreadPool())
-    private val handlerThreadTasksFactory = HandlerThreadTasksFactory()
-
-    private val thread = ThreadUtils.DefaultThread()
-    private val dispatcher = MainThreadDispatcher()
+    private val ioDispatcher = IoDispatcher(Dispatchers.IO)
+    private val defaultDispatcher = DefaultDispatcher(Dispatchers.Default)
 
     override val singletonScopeDependencies = listOf(
-        cachedThreadExecutor,
-        dispatcher,
-        InMemoryColorsRepository(handlerThreadTasksFactory, thread)
-
+        InMemoryColorsRepository(ioDispatcher)
     )
 }

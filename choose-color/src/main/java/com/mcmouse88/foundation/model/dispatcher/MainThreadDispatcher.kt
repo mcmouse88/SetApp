@@ -1,4 +1,4 @@
-package com.mcmouse88.foundation.model.tasks.dispatcher
+package com.mcmouse88.foundation.model.dispatcher
 
 import android.os.Handler
 import android.os.Looper

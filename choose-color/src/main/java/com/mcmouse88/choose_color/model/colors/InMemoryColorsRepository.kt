@@ -1,13 +1,13 @@
 package com.mcmouse88.choose_color.model.colors
 
 import android.graphics.Color
-import com.mcmouse88.foundation.model.tasks.Task
-import com.mcmouse88.foundation.model.tasks.ThreadUtils
-import com.mcmouse88.foundation.model.tasks.factories.TasksFactory
+import com.mcmouse88.foundation.model.coroutines.IoDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class InMemoryColorsRepository(
-    private val tasksFactory: TasksFactory,
-    private val threadUtils: ThreadUtils
+    private val dispatcher: IoDispatcher
 ) : ColorsRepository {
 
     private var currentColor: NamedColor = AVAILABLE_COLORS[0]
@@ -18,9 +18,27 @@ class InMemoryColorsRepository(
      * При вызове лямбды метода [createTask] последняя строчка это возвращаемое значение, поэтому
      * можно обойтись и без [return@createTask], но оставлю для наглядности
      */
-    override fun getAvailableColors(): Task<List<NamedColor>> = tasksFactory.createTask {
-        threadUtils.sleep(2_000)
-        return@createTask AVAILABLE_COLORS
+    override suspend fun getAvailableColors(): List<NamedColor> = withContext(dispatcher.value) {
+        delay(2_000)
+        return@withContext AVAILABLE_COLORS
+    }
+
+    override suspend fun getById(id: Long): NamedColor = withContext(dispatcher.value) {
+        delay(2_000)
+        return@withContext AVAILABLE_COLORS.first { it.id == id }
+    }
+
+    override suspend fun getCurrentColor(): NamedColor = withContext(dispatcher.value) {
+        delay(2_000)
+        return@withContext currentColor
+    }
+
+    override suspend fun setCurrentColor(color: NamedColor) = withContext(dispatcher.value) {
+        delay(2_000)
+        if (currentColor != color) {
+            currentColor = color
+            listeners.forEach { it(color) }
+        }
     }
 
     override fun addListener(listener: ColorListener) {
@@ -29,25 +47,6 @@ class InMemoryColorsRepository(
 
     override fun removeListener(listener: ColorListener) {
         listeners -= listener
-    }
-
-    override fun getById(id: Long): Task<NamedColor> = tasksFactory.createTask {
-        threadUtils.sleep(2_000)
-        return@createTask AVAILABLE_COLORS.first { it.id == id }
-    }
-
-    override fun getCurrentColor(): Task<NamedColor> = tasksFactory.createTask {
-        threadUtils.sleep(2_000)
-        return@createTask currentColor
-    }
-
-    override fun setCurrentColor(color: NamedColor): Task<Unit> = tasksFactory.createTask {
-        threadUtils.sleep(2_000)
-        if (currentColor != color) {
-            currentColor = color
-            listeners.forEach { it(color) }
-        }
-
     }
 
     companion object {

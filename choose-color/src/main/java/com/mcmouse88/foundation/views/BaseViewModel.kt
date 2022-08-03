@@ -1,15 +1,11 @@
 package com.mcmouse88.foundation.views
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.mcmouse88.foundation.model.PendingResult
+import androidx.lifecycle.*
+import com.mcmouse88.foundation.model.ErrorResult
 import com.mcmouse88.foundation.model.Result
-import com.mcmouse88.foundation.model.tasks.Task
-import com.mcmouse88.foundation.model.tasks.TaskListener
-import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
+import com.mcmouse88.foundation.model.SuccessResult
 import com.mcmouse88.foundation.utils.Event
+import kotlinx.coroutines.*
 
 typealias LiveEvent<T> = LiveData<Event<T>>
 typealias MutableLiveEvent<T> = MutableLiveData<Event<T>>
@@ -25,46 +21,49 @@ typealias MediatorLiveResult<T> = MediatorLiveData<Result<T>>
  * Базовый класс для всех ViewModel (кроме [MainViewModel], который содержив себе опциональный
  * метод [onResult()], на случай если фрагменту нужно получить результат.
  */
-open class BaseViewModel(
-    private val dispatcher: Dispatcher
-) : ViewModel() {
+open class BaseViewModel : ViewModel() {
 
     /**
-     * Приватное поле, которое будет в себе содержать список задач
+     * Созададим свою реализацию [viewModelScope], для того, чтобы отменять задачу при нажатии на
+     * кнопку назад, и чтобы не было бага(при нажатии на кнопку назад, за несколько милисекунд
+     * до выполнения задачи, задача успевает завершиться и схлопнуть экран). Для этой реализации
+     * на потребуется переменная типа [CoroutineContext], которую мы получим путем сложения
+     * диспатчера и [SupervisorJob]. Все job внутри корутин иерархически связаны между собой.
+     * Соответственно если мы отменяем job родителя, то все потомки тоже отменяются, и наоборот,
+     * если в какой либо job потомка случается ошибка, то эта потом передается вверх по всей
+     * иерархии. Таким образом если использовать обычную [Job], а не [SupervisorJob], то может
+     * случится такая ситуация, что если какая-либо корутина завершится с ошибкой, то потом на
+     * Scope не сможем вызвать ни одн корутину, потому что родительская job будет в статусе error.
      */
-    private val tasks = mutableSetOf<Task<*>>()
+    private val coroutineContext = SupervisorJob() + Dispatchers.Main.immediate
+
+    protected val myViewModelScope = CoroutineScope(coroutineContext)
 
     open fun onResult(result: Any) {
 
     }
 
     fun onBackPressed(): Boolean {
-        clearTasks()
+        clearViewModelScope()
         return false
     }
 
-    fun<T> Task<T>.safeEnqueue(listener: TaskListener<T>? = null) {
-        tasks.add(this)
-        this.enqueue(dispatcher) {
-            tasks.remove(this)
-            listener?.invoke(it)
-        }
-    }
-
-    fun<T> Task<T>.into(liveResult: MutableLiveResult<T>) {
-        liveResult.value = PendingResult()
-        this.safeEnqueue {
-            liveResult.value = it
+    fun<T> into(liveResult: MutableLiveResult<T>, block: suspend () -> T) {
+        myViewModelScope.launch {
+            try {
+                liveResult.postValue(SuccessResult(block()))
+            } catch (e: Exception) {
+                liveResult.postValue(ErrorResult(e))
+            }
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        clearTasks()
+        clearViewModelScope()
     }
 
-    private fun clearTasks() {
-        tasks.forEach { it.cancel() }
-        tasks.clear()
+    private fun clearViewModelScope() {
+        myViewModelScope.cancel()
     }
 }

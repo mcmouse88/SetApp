@@ -1,7 +1,6 @@
 package com.mcmouse88.choose_color.model.colors
 
 import com.mcmouse88.foundation.model.Repository
-import com.mcmouse88.foundation.model.tasks.Task
 
 typealias ColorListener = (NamedColor) -> Unit
 
@@ -10,13 +9,13 @@ typealias ColorListener = (NamedColor) -> Unit
  */
 interface ColorsRepository : Repository {
 
-    fun getAvailableColors(): Task<List<NamedColor>>
+    suspend fun getAvailableColors(): List<NamedColor>
 
-    fun getById(id: Long): Task<NamedColor>
+    suspend fun getById(id: Long): NamedColor
 
-    fun getCurrentColor(): Task<NamedColor>
+    suspend fun getCurrentColor(): NamedColor
 
-    fun setCurrentColor(color: NamedColor): Task<Unit>
+    suspend fun setCurrentColor(color: NamedColor)
 
     fun addListener(listener: ColorListener)
 

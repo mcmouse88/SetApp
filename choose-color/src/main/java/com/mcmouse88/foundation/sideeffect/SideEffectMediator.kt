@@ -1,7 +1,7 @@
 package com.mcmouse88.foundation.sideeffect
 
-import com.mcmouse88.foundation.model.tasks.dispatcher.Dispatcher
-import com.mcmouse88.foundation.model.tasks.dispatcher.MainThreadDispatcher
+import com.mcmouse88.foundation.model.dispatcher.Dispatcher
+import com.mcmouse88.foundation.model.dispatcher.MainThreadDispatcher
 import com.mcmouse88.foundation.utils.ResourceActions
 
 
