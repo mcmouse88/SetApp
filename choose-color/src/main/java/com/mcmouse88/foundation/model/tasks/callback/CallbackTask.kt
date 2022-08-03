@@ -6,6 +6,27 @@ import com.mcmouse88.foundation.model.tasks.SynchronizedTask
 import com.mcmouse88.foundation.model.tasks.Task
 import com.mcmouse88.foundation.model.tasks.TaskListener
 
+/**
+ * Данный класс любой callback превращает в task
+ * Usage example:
+ * ```
+ * val task = CallbackTask.create { emitter ->
+ *   val someNetworkCall: NetworkCall<User> = getUser("username")
+ *
+ *   emitter.setCancelListener { someNetworkCall.cancel() }
+ *
+ *   someNetworkCall.fetch(object : Callback<User> {
+ *     override fun onSuccess(user: User) {
+ *       emitter.emit(SuccessResult(user))
+ *     }
+ *
+ *     override fun onError(error: Exception) {
+ *       emitter.emit(ErrorResult(error))
+ *     }
+ *   })
+ * }
+ * ```
+ */
 class CallbackTask<T> private constructor(
     private val executionListener: ExecutionListener<T>
 ) : AbstractTask<T>() {

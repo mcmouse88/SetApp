@@ -7,6 +7,10 @@ import com.mcmouse88.foundation.model.tasks.callback.Emitter
 import com.mcmouse88.foundation.sideeffect.SideEffectMediator
 import com.mcmouse88.foundation.sideeffect.dialogs.Dialogs
 
+/**
+ * Данный класс работает на стороне ViewModel в качестве посредника, а для реализации мы
+ * используем класс [DialogsSideEffectImpl]
+ */
 class DialogsSideEffectMediator : SideEffectMediator<DialogsSideEffectImpl>(), Dialogs {
 
     var retainedState = RetainedState()
@@ -35,6 +39,9 @@ class DialogsSideEffectMediator : SideEffectMediator<DialogsSideEffectImpl>(), D
         retainedState.record = record
     }
 
+    /**
+     * Два класса для сохранения состояния диалога при смене конфигурации.
+     */
     class DialogRecord(
         val emitter: Emitter<Boolean>,
         val config: DialogConfig

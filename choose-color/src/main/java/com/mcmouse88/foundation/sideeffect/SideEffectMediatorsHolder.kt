@@ -1,6 +1,5 @@
 package com.mcmouse88.foundation.sideeffect
 
-import android.app.Application
 import android.content.Context
 
 @Suppress("UNCHECKED_CAST")

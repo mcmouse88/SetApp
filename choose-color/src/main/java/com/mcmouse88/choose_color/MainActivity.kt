@@ -14,6 +14,10 @@ import com.mcmouse88.foundation.views.activity.BaseActivity
 
 class MainActivity : BaseActivity() {
 
+    /**
+     * В данном методе мы регистрируем все имеющиеся у нас side effect. После чего мы можем
+     * передавать в конструкторы viewModel интерфейсы, отвечающие за глобальные side effect.
+     */
     override fun registerPlugins(manager: SideEffectPluginsManager) = with(manager) {
         val navigator = createNavigator()
         register(ToastsPlugin())

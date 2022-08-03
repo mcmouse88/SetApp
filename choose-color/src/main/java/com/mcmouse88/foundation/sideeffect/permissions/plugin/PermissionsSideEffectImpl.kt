@@ -10,6 +10,9 @@ class PermissionsSideEffectImpl(
     private val retainedState: RetainedState
 ) : SideEffectImplementation() {
 
+    /**
+     * Стандартный запрос на вызов дмиалогового окна с просьбой предоставить permission
+     */
     fun requestPermission(permission: String) {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), REQUEST_CODE)
     }

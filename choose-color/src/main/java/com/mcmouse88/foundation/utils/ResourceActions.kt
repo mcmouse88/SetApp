@@ -43,7 +43,9 @@ class ResourceActions<T>(
         if (resource == null) {
             actions += action
         } else {
-            action(resource)
+            dispatcher.dispatch {
+                action(resource)
+            }
         }
     }
 
