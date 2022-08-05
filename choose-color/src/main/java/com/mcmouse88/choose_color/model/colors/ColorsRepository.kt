@@ -1,6 +1,7 @@
 package com.mcmouse88.choose_color.model.colors
 
 import com.mcmouse88.foundation.model.Repository
+import kotlinx.coroutines.flow.Flow
 
 typealias ColorListener = (NamedColor) -> Unit
 
@@ -15,9 +16,7 @@ interface ColorsRepository : Repository {
 
     suspend fun getCurrentColor(): NamedColor
 
-    suspend fun setCurrentColor(color: NamedColor)
+    fun setCurrentColor(color: NamedColor): Flow<Int>
 
-    fun addListener(listener: ColorListener)
-
-    fun removeListener(listener: ColorListener)
+    fun listenCurrentColor(): Flow<NamedColor>
 }

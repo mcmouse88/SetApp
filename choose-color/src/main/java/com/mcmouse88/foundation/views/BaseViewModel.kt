@@ -6,6 +6,8 @@ import com.mcmouse88.foundation.model.Result
 import com.mcmouse88.foundation.model.SuccessResult
 import com.mcmouse88.foundation.utils.Event
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 
 typealias LiveEvent<T> = LiveData<Event<T>>
 typealias MutableLiveEvent<T> = MutableLiveData<Event<T>>
@@ -58,9 +60,42 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
+    fun<T> into(stateFlow: MutableStateFlow<Result<T>>, block: suspend () -> T) {
+        myViewModelScope.launch {
+            try {
+                stateFlow.value = SuccessResult(block())
+            } catch (e: Exception) {
+                stateFlow.value = ErrorResult(e)
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         clearViewModelScope()
+    }
+
+    /**
+     * Собственная реализация преобразования [SavedStateHandle] в [StateFlow], на момент записи
+     * ролика у [SavedStateHandle] отсутствовала данная реализация, но сейчас вроде бы появилась,
+     * поэтому пока оставлю этот метод на всякий случай
+     */
+    fun<T> SavedStateHandle.getStateFlowMyExtension(key: String, initialValue: T): MutableStateFlow<T> {
+        val savedStateHandle = this
+        val mutableFlow = MutableStateFlow(savedStateHandle[key] ?: initialValue)
+
+        viewModelScope.launch {
+            mutableFlow.collect {
+                savedStateHandle[key] = it
+            }
+        }
+
+        viewModelScope.launch {
+            savedStateHandle.getLiveData<T>(key).asFlow().collect {
+                mutableFlow.value = it
+            }
+        }
+        return mutableFlow
     }
 
     private fun clearViewModelScope() {

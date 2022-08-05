@@ -22,6 +22,7 @@ import com.mcmouse88.foundation.views.BaseViewModel
 import com.mcmouse88.foundation.views.LiveResult
 import com.mcmouse88.foundation.views.MutableLiveResult
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 class CurrentColorViewModel(
     private val navigator: Navigator,
@@ -40,10 +41,6 @@ class CurrentColorViewModel(
     private val _currentColor = MutableLiveResult<NamedColor>(PendingResult())
     val currentColor: LiveResult<NamedColor>
         get() = _currentColor
-
-    private val colorListener: ColorListener = {
-        _currentColor.postValue(SuccessResult(it))
-    }
 
 
     /**
@@ -143,13 +140,13 @@ class CurrentColorViewModel(
      *}
      */
     init {
-        colorsRepository.addListener(colorListener)
-        load()
-    }
 
-    override fun onCleared() {
-        colorsRepository.removeListener(colorListener)
-        super.onCleared()
+        viewModelScope.launch {
+            colorsRepository.listenCurrentColor().collect() {
+                _currentColor.postValue(SuccessResult(it))
+            }
+        }
+        load()
     }
 
     override fun onResult(result: Any) {
