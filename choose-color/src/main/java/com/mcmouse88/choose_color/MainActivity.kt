@@ -1,6 +1,7 @@
 package com.mcmouse88.choose_color
 
 import android.os.Bundle
+import com.mcmouse88.Initializer
 import com.mcmouse88.choose_color.views.currentcolor.CurrentColorFragment
 import com.mcmouse88.foundation.sideeffect.SideEffectPluginsManager
 import com.mcmouse88.foundation.sideeffect.dialogs.plugin.DialogsPlugin
@@ -29,6 +30,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Initializer.initDependencies()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }

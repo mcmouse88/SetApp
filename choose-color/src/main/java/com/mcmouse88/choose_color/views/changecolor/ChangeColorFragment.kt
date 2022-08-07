@@ -5,19 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mcmouse88.choose_color.R
 import com.mcmouse88.choose_color.databinding.FragmentChangeColorBinding
+import com.mcmouse88.choose_color.views.collectFlow
 import com.mcmouse88.choose_color.views.onTryAgain
 import com.mcmouse88.choose_color.views.renderSimpleResult
 import com.mcmouse88.foundation.views.BaseFragment
 import com.mcmouse88.foundation.views.BaseScreen
 import com.mcmouse88.foundation.views.HasScreenTitle
 import com.mcmouse88.foundation.views.screenViewModel
-import kotlinx.coroutines.launch
 
 class ChangeColorFragment : BaseFragment(), HasScreenTitle {
 
@@ -42,24 +39,18 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
         binding.buttonSave.setOnClickListener { viewModel.onSavePressed() }
         binding.buttonCancel.setOnClickListener { viewModel.onCancelPressed() }
 
-        /**
-         * Чтобы работать с Flow на стороне фрагмента, нам нужно у интерфейса [LifecycleOwner]
-         * (который как мы помним умирает после вызова метода onDestroy) получить значение
-         * lifecycleScope и запустить корутину. Внутри корутины вызвать метод [repeatOnLifecycle()].
-         * Участок кода объявленный внутри метода будет выполняться с того метода жизненного цикла,
-         * который укажем в параметрах и будет приостановлен в противоположном методе (пример
-         * onStart -> onStop, onCreate -> onDestroy)
-         */
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewState.collect { result ->
-                    renderSimpleResult(binding.root, result) { viewState ->
-                        adapter.items = viewState.colorsList
-                        binding.buttonSave.visibility = if (viewState.showSaveButton) View.VISIBLE else View.INVISIBLE
-                        binding.buttonCancel.visibility = if (viewState.showCancelButton) View.VISIBLE else View.INVISIBLE
-                        binding.saveProgressBar.visibility = if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
-                    }
-                }
+        collectFlow(viewModel.viewState) { result ->
+            renderSimpleResult(binding.root, result) { viewState ->
+                adapter.items = viewState.colorsList
+                binding.buttonSave.visibility =
+                    if (viewState.showSaveButton) View.VISIBLE else View.INVISIBLE
+                binding.buttonCancel.visibility =
+                    if (viewState.showCancelButton) View.VISIBLE else View.INVISIBLE
+
+                binding.groupSaveProgress.visibility =
+                    if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
+                binding.saveProgressBar.progress = viewState.saveProgressPercentage
+                binding.tvSavingPercentage.text = viewState.saveProgressPercentageMessage
             }
         }
 

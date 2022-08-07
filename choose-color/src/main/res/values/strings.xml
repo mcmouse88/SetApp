@@ -19,4 +19,6 @@
     <string name="open_app_settings_message">It seems you have denied permissions forever. You can change your decision in app settings.\n\nOpen app settings?</string>
     <string name="action_open">Open</string>
     <string name="action_cancel">Cancel</string>
+    <string name="percentage_value">%1$d%%</string>
+    <string name="please_wait">Please wait…</string>
 </resources>

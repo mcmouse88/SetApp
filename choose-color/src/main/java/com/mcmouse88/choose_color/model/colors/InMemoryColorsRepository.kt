@@ -1,7 +1,9 @@
 package com.mcmouse88.choose_color.model.colors
 
 import android.graphics.Color
+import android.util.Log
 import com.mcmouse88.foundation.model.coroutines.IoDispatcher
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -14,7 +16,11 @@ class InMemoryColorsRepository(
 
     private var currentColor: NamedColor = AVAILABLE_COLORS[0]
 
-    private val listeners = mutableSetOf<ColorListener>()
+    private val currentColorFlow = MutableSharedFlow<NamedColor>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     /**
      * При вызове лямбды метода [createTask] последняя строчка это возвращаемое значение, поэтому
@@ -26,7 +32,7 @@ class InMemoryColorsRepository(
     }
 
     override suspend fun getById(id: Long): NamedColor = withContext(dispatcher.value) {
-        delay(2_000)
+        delay(200)
         return@withContext AVAILABLE_COLORS.first { it.id == id }
     }
 
@@ -53,6 +59,7 @@ class InMemoryColorsRepository(
      * оператора.
      */
     override fun setCurrentColor(color: NamedColor): Flow<Int> = flow {
+        Log.e("AAAAAAAA", "setCurrentColor", )
         if (currentColor != color) {
             var progress = 0
             while (progress < 100) {
@@ -61,50 +68,13 @@ class InMemoryColorsRepository(
                 emit(progress)
             }
             currentColor = color
-            listeners.forEach { it(color) }
+            currentColorFlow.emit(color)
         } else {
             emit(100)
         }
     }.flowOn(dispatcher.value)
 
-    /**
-     * Далее вынесем реализацию по добавлению и удалению слушателей по смене цветов во Flow. Для
-     * этого будем использовать следующий FlowBuilder, а именно метод [callbackFlow()]. Когда
-     * нам нужно было превартить callback в корутину, то мы использовали метод
-     * [suspendCancellableCoroutine]. [callbackFlow()] делает тоже самое, но уже не для suspend
-     * функции, а для корутин. В случае с [suspendCancellableCoroutine] мы ожидали, что callback
-     * сработает только один раз, но с [callbackFlow()] мы может превратить callback во Flow,
-     * который может срабатывать много раз. Именно такими callback у нас являлись слушатели, которые
-     * добавлялись через метод [addListener()] (сейчас этот метод уже удален из нашей программы за
-     * ненадобностью), то есть те слушатели, которые оповещали о смене текущего цвета, то есть
-     * каждый раз когда вызывался метод [setCurrentColor()] с добавлением нового цвета у нас
-     * срабатывал слушаетель, добавленный с помощью метода [addListener()]. Теперь, чтобы
-     * удалить слушателя будем использовать метод [awaitClose()], который сработает внутри Flow
-     * когда внешняя корутина завершится (например если это viewModelScope, то когда у ViewModel
-     * вызовестя метод onCleared, если это viewLifeCycleScope, то когда у экрана вызовется метод
-     * onDestroy. Для того, чтобы передать текущий цвет, который получил слушатель, используем
-     * метод [trySend()], таким образом Flow будет каждый раз оповещен о смене текущего цвета.
-     * Метод [trySend()] может также вернуть результат, с помощью которого можно определен, был ли
-     * это успех, ошибка, или выполнение операции было отменено. При обработке обновлений может
-     * возникнуть ситуация, при которой тот кто принимает обновления, обрабатывает их дольше
-     * чем тот кто их отдает (например если у нас цвет меняется каждую секунду, а обработка смены
-     * цвета составляет две секунды), и в результате чего все элементы, которые еще не были
-     * обработаны будут складываться в очередь (в буфер), и у этого буфера по умолчанию есть лимит.
-     * Чтобы переопределить buffer, нужно на Flow вызвать метод [buffer()], в котором можно
-     * определить Capacity(сколько элементов может быть максимум в буфере), а также определить, что
-     * будет происходить при bufferOverFlow. [Channel.CONFLATED] сообщает Flow, что нас интересует
-     * самый последний результат (текущий).
-     */
-    override fun listenCurrentColor(): Flow<NamedColor> = callbackFlow {
-        val listener: ColorListener = {
-            trySend(it)
-        }
-        listeners.add(listener)
-
-        awaitClose {
-            listeners.remove(listener)
-        }
-    }.buffer(Channel.CONFLATED)
+    override fun listenCurrentColor(): Flow<NamedColor> = currentColorFlow
 
     companion object {
         private val AVAILABLE_COLORS = listOf(

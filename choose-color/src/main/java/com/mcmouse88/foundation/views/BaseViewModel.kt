@@ -6,8 +6,8 @@ import com.mcmouse88.foundation.model.Result
 import com.mcmouse88.foundation.model.SuccessResult
 import com.mcmouse88.foundation.utils.Event
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 
 typealias LiveEvent<T> = LiveData<Event<T>>
 typealias MutableLiveEvent<T> = MutableLiveData<Event<T>>
@@ -18,6 +18,9 @@ typealias MutableLiveEvent<T> = MutableLiveData<Event<T>>
 typealias LiveResult<T> = LiveData<Result<T>>
 typealias MutableLiveResult<T> = MutableLiveData<Result<T>>
 typealias MediatorLiveResult<T> = MediatorLiveData<Result<T>>
+
+typealias ResultFlow<T> = Flow<Result<T>>
+typealias ResultMutableStateFlow<T> = MutableStateFlow<Result<T>>
 
 /**
  * Базовый класс для всех ViewModel (кроме [MainViewModel], который содержив себе опциональный

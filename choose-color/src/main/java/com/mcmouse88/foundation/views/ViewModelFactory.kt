@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 import com.mcmouse88.foundation.ActivityScopeViewModel
-import com.mcmouse88.foundation.BaseApplication
+import com.mcmouse88.foundation.SingletonScopeDependencies
 import com.mcmouse88.foundation.views.BaseScreen.Companion.ARG_SCREEN
 import com.mcmouse88.foundation.views.activity.ActivityDelegateHolder
 import java.lang.reflect.Constructor
@@ -20,12 +20,15 @@ import java.lang.reflect.Constructor
  * scope самого экрана в виде переменной [screen]
  */
 inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<VM> {
-    val application = requireActivity().application as BaseApplication
+    val application = requireActivity().application
     val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
 
     val activityScopeViewModel = (requireActivity() as ActivityDelegateHolder).delegate.getActivityScopeViewModel()
 
-    val dependencies = listOf(screen) + activityScopeViewModel.sideEffectMediators + application.singletonScopeDependencies
+    val dependencies =
+        listOf(screen) + activityScopeViewModel.sideEffectMediators + SingletonScopeDependencies.getDependencies(
+            application
+        )
     ViewModelFactory(dependencies, this)
 }
 
