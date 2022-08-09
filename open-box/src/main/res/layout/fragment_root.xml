@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.mcmouse88.open_box.fragments.RootFragment">
+
+    <Button
+        android:id="@+id/button_open_green_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_green"
+        android:text="@string/green_box" />
+
+    <Button
+        android:id="@+id/button_open_yellow_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_yellow"
+        android:text="@string/yellow_box"
+        android:textColor="@color/black" />
+
+</LinearLayout>
