@@ -61,6 +61,7 @@ class BoxFragment : Fragment(R.layout.fragment_box) {
 
     companion object {
         const val ARG_COLOR = "arg_color"
+        const val ARG_COLOR_NAME = "arg_color_name"
 
         const val REQUEST_CODE = "random_number"
         const val EXTRA_RANDOM_NUMBER = "extra_random_number"

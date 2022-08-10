@@ -1,6 +1,7 @@
 package com.mcmouse88.open_box.fragments
 
 import android.graphics.Color
+import android.graphics.Color.green
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -27,11 +28,11 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         _binding = FragmentRootBinding.bind(view)
 
         binding.buttonOpenGreenBox.setOnClickListener {
-            openBox(Color.rgb(200, 255, 200))
+            openBox(Color.rgb(200, 255, 200), getString(R.string.green))
         }
 
         binding.buttonOpenYellowBox.setOnClickListener {
-            openBox(Color.rgb(255, 255, 200))
+            openBox(Color.rgb(255, 255, 200), getString(R.string.yellow))
         }
 
         parentFragmentManager.setFragmentResultListener(BoxFragment.REQUEST_CODE, viewLifecycleOwner) { _, data ->
@@ -45,10 +46,10 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         super.onDestroyView()
     }
 
-    private fun openBox(color: Int) {
+    private fun openBox(color: Int, colorName: String) {
         findNavController().navigate(
             R.id.action_rootFragment_to_boxFragment,
-            bundleOf(BoxFragment.ARG_COLOR to color)
+            bundleOf(BoxFragment.ARG_COLOR to color, BoxFragment.ARG_COLOR_NAME to colorName)
         )
     }
 }
