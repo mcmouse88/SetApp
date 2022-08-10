@@ -17,13 +17,16 @@
     <fragment
         android:id="@+id/boxFragment"
         android:name="com.mcmouse88.open_box.fragments.BoxFragment"
-        android:label="{arg_color_name} Box"
-        tools:layout="@layout/fragment_box" >
+        android:label="{colorName} Box"
+        tools:layout="@layout/fragment_box">
         <action
             android:id="@+id/action_boxFragment_to_secretFragment"
             app:destination="@id/secretFragment" />
         <argument
-            android:name="arg_color_name"
+            android:name="color"
+            app:argType="integer" />
+        <argument
+            android:name="colorName"
             app:argType="string" />
     </fragment>
     <fragment

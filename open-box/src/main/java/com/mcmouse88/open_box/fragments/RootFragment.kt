@@ -1,11 +1,9 @@
 package com.mcmouse88.open_box.fragments
 
 import android.graphics.Color
-import android.graphics.Color.green
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mcmouse88.open_box.R
@@ -21,7 +19,11 @@ class RootFragment : Fragment(R.layout.fragment_root) {
      * Чтобы принять результат с другого фрагмента, у parentFragmentManager нужно вызывать метод
      * setFragmentResultListener, куда нужно передать request code и LifeCycleOwner, в лямбду
      * попадает два параметра, первый это сам request code(на случай обработки разных результатов,
-     * но у нас он только один поэтому опускаем его), и второй самм bundle.
+     * но у нас он только один поэтому опускаем его), и второй самм bundle. При получении результата
+     * от другого экрана с использованием [LiveData] и [SavedStateHandle], каждый раз при повороте
+     * экрана будет приходить значение [LiveData], так как у нас тост сообщение, то оно будет
+     * показываться при каждом повороте, поэтому после показа тост сообщения, нужно обнулить
+     * занчение [LiveData], и проверять ее значение на null при показе тост сообщения.
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,9 +37,19 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             openBox(Color.rgb(255, 255, 200), getString(R.string.yellow))
         }
 
-        parentFragmentManager.setFragmentResultListener(BoxFragment.REQUEST_CODE, viewLifecycleOwner) { _, data ->
-            val number = data.getInt(BoxFragment.EXTRA_RANDOM_NUMBER)
-            Toast.makeText(requireContext(), "Generated number: $number", Toast.LENGTH_SHORT).show()
+        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<Int>(BoxFragment.EXTRA_RANDOM_NUMBER)
+
+        liveData?.observe(viewLifecycleOwner) { number ->
+            if (number != null) {
+                Toast.makeText(
+                    requireContext(),
+                    "Generated number: $number",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+            liveData.value = null
         }
     }
 
@@ -46,10 +58,13 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         super.onDestroyView()
     }
 
+    /**
+     * Чтобы переадвать аргументы через safe_args нужно использвать дирекшены, которые
+     * автоматически генерируются при подключении плагина.
+     */
     private fun openBox(color: Int, colorName: String) {
-        findNavController().navigate(
-            R.id.action_rootFragment_to_boxFragment,
-            bundleOf(BoxFragment.ARG_COLOR to color, BoxFragment.ARG_COLOR_NAME to colorName)
-        )
+        val direction = RootFragmentDirections.actionRootFragmentToBoxFragment(color, colorName)
+
+        findNavController().navigate(direction)
     }
 }
