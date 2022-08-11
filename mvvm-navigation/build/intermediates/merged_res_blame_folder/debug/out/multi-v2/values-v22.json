@@ -4,7 +4,7 @@
             "outputFile": "com.mcmouse88.mvvm_navigation.mvvm-navigation-mergeDebugResources-33:/values-v22/values-v22.xml",
             "map": [
                 {
-                    "source": "/home/sergey88r/.gradle/caches/transforms-3/8e898484a1c13ffd3f7c43ca6077999f/transformed/appcompat-1.4.2/res/values-v22/values-v22.xml",
+                    "source": "/home/sergey88r/.gradle/caches/transforms-3/4ea42d1e19ec320a456c64e430908d85/transformed/appcompat-1.4.2/res/values-v22/values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

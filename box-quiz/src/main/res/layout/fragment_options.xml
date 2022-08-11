@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_begin_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/options_container"
+        style="@style/Form"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_options"
+        app:layout_constraintStart_toStartOf="@id/guideline_begin_options"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_title_options"
+            style="@style/FormHintTextView"
+            android:text="@string/options"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_hint_select"
+            style="@style/HintTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_the_number_of_boxes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_options" />
+
+        <Spinner
+            android:id="@+id/spinner_box_count"
+            style="@style/DefaultSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_hint_select" />
+
+        <CheckBox
+            android:id="@+id/cb_enabled_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/enable_timer"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_box_count"
+            app:layout_constraintStart_toEndOf="@+id/spinner_box_count"
+            app:layout_constraintTop_toTopOf="@id/spinner_box_count" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/options_container"
+        app:layout_constraintEnd_toEndOf="@id/options_container"
+        android:text="@string/confirm"
+        app:layout_constraintStart_toEndOf="@id/bt_cancel"  />
+
+    <Button
+        android:id="@+id/bt_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        app:layout_constraintTop_toTopOf="@id/bt_confirm"
+        app:layout_constraintEnd_toStartOf="@id/bt_confirm"
+        app:layout_constraintStart_toStartOf="@id/options_container" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

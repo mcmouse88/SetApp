@@ -15,7 +15,7 @@
 12        android:allowBackup="true"
 12-->/home/sergey88r/AndroidStudioProjects/AnotherKindOfApp/mvvm-navigation/src/main/AndroidManifest.xml:6:9-35
 13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.8.0] /home/sergey88r/.gradle/caches/transforms-3/065dfa018132f0a621878cd66243e674/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+13-->[androidx.core:core:1.8.0] /home/sergey88r/.gradle/caches/transforms-3/0bbd1ac94e5abeb89e25cdfd432b4829/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
 14        android:debuggable="true"
 15        android:extractNativeLibs="false"
 16        android:icon="@mipmap/ic_launcher"
@@ -47,25 +47,25 @@
 29        </activity>
 30
 31        <provider
-31-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+31-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
 32            android:name="androidx.startup.InitializationProvider"
-32-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:27:13-67
+32-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:27:13-67
 33            android:authorities="com.mcmouse88.mvvm_navigation.androidx-startup"
-33-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:28:13-68
+33-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:28:13-68
 34            android:exported="false" >
-34-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:29:13-37
+34-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:29:13-37
 35            <meta-data
-35-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+35-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
 36                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-36-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:32:17-75
+36-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:32:17-75
 37                android:value="androidx.startup" />
-37-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/46f78acda5fcb3a1d65440954eeb5b73/transformed/emoji2-1.0.0/AndroidManifest.xml:33:17-49
+37-->[androidx.emoji2:emoji2:1.0.0] /home/sergey88r/.gradle/caches/transforms-3/717414a57bfab76606a8e8a7e05151cc/transformed/emoji2-1.0.0/AndroidManifest.xml:33:17-49
 38            <meta-data
-38-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/cb5baf6f6cd3c337c16cbd482c02d812/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+38-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/8cc7e21488609b8f72912e0766aee613/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
 39                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-39-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/cb5baf6f6cd3c337c16cbd482c02d812/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+39-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/8cc7e21488609b8f72912e0766aee613/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
 40                android:value="androidx.startup" />
-40-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/cb5baf6f6cd3c337c16cbd482c02d812/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+40-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/sergey88r/.gradle/caches/transforms-3/8cc7e21488609b8f72912e0766aee613/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
 41        </provider>
 42    </application>
 43
