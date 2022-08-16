@@ -12,9 +12,9 @@ interface AccountsRepository {
 
     suspend fun signUp(signUpData: SignUpData)
 
-    fun logout()
+    suspend fun logout()
 
-    fun getAccount(): Flow<Account?>
+    suspend fun getAccount(): Flow<Account?>
 
     suspend fun updateAccountUsername(newUsername: String)
 }

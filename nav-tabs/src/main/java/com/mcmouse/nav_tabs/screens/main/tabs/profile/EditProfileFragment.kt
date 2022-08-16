@@ -65,8 +65,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
     }
 
-    private fun observeEmptyFieldErrorEvent() = viewModel.showEmptyFieldErrorEvent.observeEvent(viewLifecycleOwner) {
-        Toast.makeText(requireContext(), R.string.field_is_empty, Toast.LENGTH_SHORT).show()
+    private fun observeEmptyFieldErrorEvent() = viewModel.showErrorEvent.observeEvent(viewLifecycleOwner) {
+        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

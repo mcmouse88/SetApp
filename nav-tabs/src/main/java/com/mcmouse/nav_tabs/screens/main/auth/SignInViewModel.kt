@@ -3,14 +3,12 @@ package com.mcmouse.nav_tabs.screens.main.auth
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mcmouse.nav_tabs.R
 import com.mcmouse.nav_tabs.models.AuthException
 import com.mcmouse.nav_tabs.models.EmptyFieldException
 import com.mcmouse.nav_tabs.models.Field
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
-import com.mcmouse.nav_tabs.utils.MutableUnitLiveEvent
-import com.mcmouse.nav_tabs.utils.publishEvent
-import com.mcmouse.nav_tabs.utils.requireValue
-import com.mcmouse.nav_tabs.utils.share
+import com.mcmouse.nav_tabs.utils.*
 import kotlinx.coroutines.launch
 
 class SignInViewModel(
@@ -23,7 +21,7 @@ class SignInViewModel(
     private val _clearPasswordEvent = MutableUnitLiveEvent()
     val clearPasswordEvent = _clearPasswordEvent.share()
 
-    private val _showAuthErrorToastEvent = MutableUnitLiveEvent()
+    private val _showAuthErrorToastEvent = MutableLiveEvent<Int>()
     val showAuthErrorToastEvent = _showAuthErrorToastEvent.share()
 
     private val _navigateToTabsEvent = MutableUnitLiveEvent()
@@ -63,7 +61,7 @@ class SignInViewModel(
 
     private fun clearPasswordField() = _clearPasswordEvent.publishEvent()
 
-    private fun showAuthErrorToast() = _showAuthErrorToastEvent.publishEvent()
+    private fun showAuthErrorToast() = _showAuthErrorToastEvent.publishEvent(R.string.invalid_email_or_password)
 
     private fun launchTabsScreen() = _navigateToTabsEvent.publishEvent()
 

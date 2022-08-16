@@ -29,8 +29,10 @@ class ProfileViewModel(
     }
 
     fun logout() {
-        accountsRepository.logout()
-        restartAppFromLoginScreen()
+        viewModelScope.launch {
+            accountsRepository.logout()
+            restartAppFromLoginScreen()
+        }
     }
 
     private fun restartAppFromLoginScreen() {

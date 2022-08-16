@@ -2,11 +2,13 @@ package com.mcmouse.nav_tabs.screens.main.tabs.settings
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcmouse.nav_tabs.R
 import com.mcmouse.nav_tabs.Repositories
 import com.mcmouse.nav_tabs.databinding.FragmentSettingsBinding
+import com.mcmouse.nav_tabs.utils.observeEvent
 import com.mcmouse.nav_tabs.utils.viewModelCreator
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -23,6 +25,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         val adapter = setupList()
         viewModel.boxSetting.observe(viewLifecycleOwner) { adapter.renderSettings(it) }
+
+        viewModel.showErrorMessageEvent.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupList(): SettingsAdapter {

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class BoxViewModel(
-    private val boxId: Int,
+    private val boxId: Long,
     private val boxesRepository: BoxesRepository
 ) : ViewModel() {
 

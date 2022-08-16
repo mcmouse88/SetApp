@@ -47,7 +47,7 @@ class BoxFragment : Fragment(R.layout.fragment_box) {
             if (shouldExit) findNavController().popBackStack()
         }
 
-    private fun getBoxId(): Int = args.boxId
+    private fun getBoxId(): Long = args.boxId
 
     private fun getColorValue(): Int = args.colorValue
 

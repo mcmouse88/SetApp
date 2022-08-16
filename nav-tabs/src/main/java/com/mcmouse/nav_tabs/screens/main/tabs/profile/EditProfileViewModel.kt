@@ -3,7 +3,9 @@ package com.mcmouse.nav_tabs.screens.main.tabs.profile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mcmouse.nav_tabs.R
 import com.mcmouse.nav_tabs.models.EmptyFieldException
+import com.mcmouse.nav_tabs.models.StorageException
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
 import com.mcmouse.nav_tabs.utils.MutableLiveEvent
 import com.mcmouse.nav_tabs.utils.MutableUnitLiveEvent
@@ -26,8 +28,8 @@ class EditProfileViewModel(
     private val _goBackEvent = MutableUnitLiveEvent()
     val goBackEvent = _goBackEvent.share()
 
-    private val _showEmptyFieldErrorEvent = MutableUnitLiveEvent()
-    val showEmptyFieldErrorEvent = _showEmptyFieldErrorEvent.share()
+    private val _showErrorEvent = MutableLiveEvent<Int>()
+    val showErrorEvent = _showErrorEvent.share()
 
     init {
         viewModelScope.launch {
@@ -45,8 +47,11 @@ class EditProfileViewModel(
                 accountsRepository.updateAccountUsername(newUsername)
                 goBack()
             } catch (e: EmptyFieldException) {
-                hideProgress()
                 showEmptyFieldErrorMessage()
+            } catch (e: StorageException) {
+                showStorageErrorMessage()
+            } finally {
+                hideProgress()
             }
         }
     }
@@ -61,5 +66,7 @@ class EditProfileViewModel(
         _saveInProgress.value = false
     }
 
-    private fun showEmptyFieldErrorMessage() = _showEmptyFieldErrorEvent.publishEvent()
+    private fun showEmptyFieldErrorMessage() = _showErrorEvent.publishEvent(R.string.field_is_empty)
+
+    private fun showStorageErrorMessage() = _showErrorEvent.publishEvent(R.string.storage_error)
 }

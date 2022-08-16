@@ -41,7 +41,7 @@ class SettingsAdapter(
             holder.checkBox.isChecked = setting.enabled
         }
 
-        val colorName = context.getString(setting.box.colorNameRes)
+        val colorName = setting.box.colorName
         holder.checkBox.text = context.getString(R.string.enable_checkbox, colorName)
     }
 

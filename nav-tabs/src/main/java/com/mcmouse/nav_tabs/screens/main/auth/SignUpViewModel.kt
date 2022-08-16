@@ -1,6 +1,7 @@
 package com.mcmouse.nav_tabs.screens.main.auth
 
 import androidx.annotation.StringRes
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,21 +12,18 @@ import com.mcmouse.nav_tabs.models.Field
 import com.mcmouse.nav_tabs.models.PasswordMismatchException
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
 import com.mcmouse.nav_tabs.models.accounts.entities.SignUpData
-import com.mcmouse.nav_tabs.utils.MutableUnitLiveEvent
-import com.mcmouse.nav_tabs.utils.publishEvent
-import com.mcmouse.nav_tabs.utils.requireValue
-import com.mcmouse.nav_tabs.utils.share
+import com.mcmouse.nav_tabs.utils.*
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val accountsRepository: AccountsRepository
 ) : ViewModel() {
 
-    private val _showSuccessSignUpMessageEvent = MutableUnitLiveEvent()
-    val showSuccessSignUpMessageEvent = _showSuccessSignUpMessageEvent.share()
-
     private val _goBackEvent = MutableUnitLiveEvent()
     val goBackEvent = _goBackEvent.share()
+
+    private val _showToastEvent = MutableLiveEvent<Int>()
+    val showToastEvent = _showToastEvent.share()
 
     private val _state = MutableLiveData(State())
     val state = _state.share()
@@ -79,7 +77,7 @@ class SignUpViewModel(
         _state.value = _state.requireValue().copy(signupInProgress = false)
     }
 
-    private fun showSuccessSignUpMessage() = _showSuccessSignUpMessageEvent.publishEvent()
+    private fun showSuccessSignUpMessage() = _showToastEvent.publishEvent(R.string.sign_in_success)
 
     private fun goBack() = _goBackEvent.publishEvent()
 

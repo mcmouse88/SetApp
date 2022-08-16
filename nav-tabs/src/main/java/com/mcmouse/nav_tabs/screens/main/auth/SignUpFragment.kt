@@ -66,10 +66,9 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         }
     }
 
-    private fun observeShowSuccessSignUpMessageEvent() =
-        viewModel.showSuccessSignUpMessageEvent.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), R.string.sign_up_success, Toast.LENGTH_SHORT).show()
-        }
+    private fun observeShowSuccessSignUpMessageEvent() = viewModel.showToastEvent.observeEvent(viewLifecycleOwner) {
+        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+    }
 
     private fun fillError(input: TextInputLayout, @StringRes stringRes: Int) {
         if (stringRes == SignUpViewModel.NO_ERROR_MESSAGE) {

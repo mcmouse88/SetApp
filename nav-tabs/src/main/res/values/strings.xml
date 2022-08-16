@@ -47,4 +47,6 @@
     <string name="screen_box">{colorName} Box</string>
     <string name="screen_profile">Profile</string>
     <string name="screen_settings">Settings</string>
+    <string name="sign_in_success">Wow, you have created a new account. Now you can login with it.</string>
+    <string name="storage_error">Local storage error</string>
 </resources>
