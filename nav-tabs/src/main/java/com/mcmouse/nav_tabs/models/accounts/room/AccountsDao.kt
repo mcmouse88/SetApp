@@ -1,9 +1,7 @@
 package com.mcmouse.nav_tabs.models.accounts.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
+import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountAndEditBoxesTuple
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountDbEntity
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountSignInTuple
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountUpdateUserNameTuple
@@ -29,4 +27,8 @@ interface AccountsDao {
 
     @Query("SELECT * FROM accounts WHERE user_id = :accountId")
     fun getById(accountId: Long): Flow<AccountDbEntity?>
+
+    @Transaction
+    @Query("SELECT * FROM accounts WHERE accounts.user_id = :accountId")
+    fun getAccountAndEditedBoxes(accountId: Long): AccountAndEditBoxesTuple
 }

@@ -1,6 +1,11 @@
 package com.mcmouse.nav_tabs.models.accounts.room.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Junction
+import androidx.room.Relation
+import com.mcmouse.nav_tabs.models.boxes.room.entities.AccountBoxSettingDbEntity
+import com.mcmouse.nav_tabs.models.boxes.room.entities.BoxDbEntity
 
 /**
  * Tuple используется для того, чтобы получить только определенную информацию из базы данных
@@ -24,4 +29,22 @@ data class AccountSignInTuple(
 data class AccountUpdateUserNameTuple(
     @ColumnInfo(name = "user_id") val userId: Long,
     val username: String
+)
+
+/**
+ * Также для связи между таблицами можно использовать следующую структуру, главное не перепутать
+ * параметры parentColumn и entityColumn.
+ */
+data class AccountAndEditBoxesTuple(
+    @Embedded val accountDbEntity: AccountDbEntity,
+    @Relation(
+        parentColumn = "user_id",
+        entityColumn = "box_id",
+        associateBy = Junction(
+            value = AccountBoxSettingDbEntity::class,
+        parentColumn = "account_id",
+            entityColumn = "box_user_id"
+        )
+    )
+    val boxes: List<BoxDbEntity>
 )
