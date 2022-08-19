@@ -2,6 +2,7 @@ package com.mcmouse.nav_tabs.models.boxes.room.entities
 
 import androidx.room.*
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountDbEntity
+import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsTuple
 
 /**
  * Чтобы объявить составной первичный ключ (из двух и более колонок), нужно в аннотации [Entity]

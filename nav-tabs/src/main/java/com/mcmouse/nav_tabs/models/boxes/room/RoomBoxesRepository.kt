@@ -1,13 +1,12 @@
 package com.mcmouse.nav_tabs.models.boxes.room
 
-import android.graphics.Color
 import com.mcmouse.nav_tabs.models.AuthException
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
 import com.mcmouse.nav_tabs.models.boxes.BoxesRepository
 import com.mcmouse.nav_tabs.models.boxes.entities.Box
 import com.mcmouse.nav_tabs.models.boxes.entities.BoxAndSettings
 import com.mcmouse.nav_tabs.models.boxes.room.entities.AccountBoxSettingDbEntity
-import com.mcmouse.nav_tabs.models.boxes.room.entities.SettingsTuple
+import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsTuple
 import com.mcmouse.nav_tabs.models.room.wrapSQLiteException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
@@ -41,13 +40,11 @@ class RoomBoxesRepository(
     private fun queBoxesAndSettings(accountId: Long): Flow<List<BoxAndSettings>> {
         return boxesDao.getBoxesAndSettings(accountId).map { entities ->
             entities.map {
+                val boxEntity = it.boxDbEntity
+                val settingsEntity = it.settingDbEntities
                 BoxAndSettings(
-                    box = Box(
-                        id = it.boxUserId,
-                        colorName = it.colorName,
-                        colorValue = Color.parseColor(it.colorValue)
-                    ),
-                    isActive = it.settings.isActive
+                    box = boxEntity.toBox(),
+                    isActive = settingsEntity.settings.isActive
                 )
             }
         }

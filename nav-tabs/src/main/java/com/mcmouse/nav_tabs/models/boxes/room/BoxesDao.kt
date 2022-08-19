@@ -2,9 +2,7 @@ package com.mcmouse.nav_tabs.models.boxes.room
 
 import androidx.room.*
 import com.mcmouse.nav_tabs.models.boxes.room.entities.AccountBoxSettingDbEntity
-import com.mcmouse.nav_tabs.models.boxes.room.entities.BoxAndSettingAndTuple
-import com.mcmouse.nav_tabs.models.boxes.room.entities.BoxDbEntity
-import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsDbView
+import com.mcmouse.nav_tabs.models.boxes.room.views.SettingWithEntitiesTuple
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -34,8 +32,16 @@ interface BoxesDao {
     /**
      * Вариант того же запроса с использованием [DatabaseView]
      */
+    /*@Query("SELECT * FROM settings_view WHERE account_id = :accountId")
+    fun getBoxesAndSettings(accountId: Long): Flow<List<SettingsDbView>>*/
+
+    /**
+     * Вариант с использованием [Relation]. Также при этом при запросе должна присутствовать
+     * аннотация [Transaction]
+     */
+    @Transaction
     @Query("SELECT * FROM settings_view WHERE account_id = :accountId")
-    fun getBoxesAndSettings(accountId: Long): Flow<List<SettingsDbView>>
+    fun getBoxesAndSettings(accountId: Long): Flow<List<SettingWithEntitiesTuple>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setActiveFlagForBox(accountBoxSettingDbEntity: AccountBoxSettingDbEntity)
