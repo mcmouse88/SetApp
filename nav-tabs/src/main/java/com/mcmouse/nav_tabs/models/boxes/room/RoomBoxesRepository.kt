@@ -1,5 +1,6 @@
 package com.mcmouse.nav_tabs.models.boxes.room
 
+import android.graphics.Color
 import com.mcmouse.nav_tabs.models.AuthException
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
 import com.mcmouse.nav_tabs.models.boxes.BoxesRepository
@@ -40,11 +41,13 @@ class RoomBoxesRepository(
     private fun queBoxesAndSettings(accountId: Long): Flow<List<BoxAndSettings>> {
         return boxesDao.getBoxesAndSettings(accountId).map { entities ->
             entities.map {
-                val boxEntity = it.boxDbEntity
-                val settingsEntity = it.settingDbEntity
                 BoxAndSettings(
-                    boxEntity.toBox(),
-                    settingsEntity == null || settingsEntity.setting.isActive
+                    box = Box(
+                        id = it.boxUserId,
+                        colorName = it.colorName,
+                        colorValue = Color.parseColor(it.colorValue)
+                    ),
+                    isActive = it.settings.isActive
                 )
             }
         }
