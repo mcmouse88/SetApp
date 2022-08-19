@@ -1,14 +1,14 @@
 package com.mcmouse.nav_tabs
 
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
+import androidx.room.Room
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
-import com.mcmouse.nav_tabs.models.accounts.SQLiteAccountsRepository
+import com.mcmouse.nav_tabs.models.accounts.room.RoomAccountsRepository
 import com.mcmouse.nav_tabs.models.boxes.BoxesRepository
-import com.mcmouse.nav_tabs.models.boxes.SQLiteBoxesRepository
+import com.mcmouse.nav_tabs.models.boxes.room.RoomBoxesRepository
+import com.mcmouse.nav_tabs.models.room.AppDataBase
 import com.mcmouse.nav_tabs.models.settings.AppSettings
 import com.mcmouse.nav_tabs.models.settings.SharedPreferencesAppSettings
-import com.mcmouse.nav_tabs.models.sqlite.AppSQLiteHelper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -22,8 +22,10 @@ object Repositories {
      * записывать данные в базу (для того чтобы мог только читать, а не записывать то свойство
      * [readableDatabase])
      */
-    private val database: SQLiteDatabase by lazy<SQLiteDatabase> {
-        AppSQLiteHelper(appContext).writableDatabase
+    private val database: AppDataBase by lazy {
+        Room.databaseBuilder(appContext, AppDataBase::class.java, "database.db")
+            .createFromAsset("initial_database.db")
+            .build()
     }
 
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -33,11 +35,11 @@ object Repositories {
     }
 
     val accountsRepository: AccountsRepository by lazy {
-        SQLiteAccountsRepository(database, appSettings, ioDispatcher)
+        RoomAccountsRepository(database.getAccountsDao(), appSettings, ioDispatcher)
     }
 
     val boxesRepository: BoxesRepository by lazy {
-        SQLiteBoxesRepository(database, accountsRepository, ioDispatcher)
+        RoomBoxesRepository(database.getBoxesDao()  , accountsRepository, ioDispatcher)
     }
 
     fun init(context: Context) {

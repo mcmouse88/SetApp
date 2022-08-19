@@ -1,29 +1,35 @@
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE "accounts" (
-	"user_id" 		INTEGER PRIMARY KEY,
-	"email" 		TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"user_id" 		INTEGER PRIMARY KEY NOT NULL,
+	"email" 		  TEXT NOT NULL UNIQUE COLLATE NOCASE,
 	"username" 		TEXT NOT NULL,
 	"password" 		TEXT NOT NULL,
 	"created_at" 	INTEGER NOT NULL
 );
 
+#------------------------------------------------------#
+
 CREATE TABLE "boxes" (
- "box_id"       INTEGER PRIMARY KEY,
- "color_name"   TEXT NOT NULL,
- "color_value"  TEXT NOT NULL
+ "box_id" INTEGER PRIMARY KEY NOT NULL,
+ "color_name" TEXT NOT NULL,
+ "color_value" TEXT NOT NULL
 );
 
+#------------------------------------------------------#
+
 CREATE TABLE "accounts_boxes_settings" (
-	"account_id" INTEGER NOT NULL,
-	"box_user_id" INTEGER NOT NULL,
+	"account_id" INTEGER PRIMARY KEY NOT NULL,
+	"box_user_id" INTEGER PRIMARY KEY NOT NULL,
 	"is_active" INTEGER NOT NULL,
 	FOREIGN KEY("account_id") REFERENCES "accounts"("user_id")
 		ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY("box_user_id") REFERENCES "boxes"("box_id")
 		ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE("account_id", "box_user_id")
+	PRIMARY KEY("account_id", "box_user_id")
 );
+
+#------------------------------------------------------#
 
 INSERT INTO "accounts" (
 	"email", "username", "password", "created_at"
@@ -31,6 +37,8 @@ INSERT INTO "accounts" (
 VALUES
 	("admin@google.com", "admin", "123456", 0),
 	("tester@goggle.com", "tester", "654321", 0);
+
+#------------------------------------------------------#
 
 INSERT INTO "boxes"("color_name", "color_value")
 	VALUES

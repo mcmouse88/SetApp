@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mcmouse.nav_tabs.R
 import com.mcmouse.nav_tabs.models.boxes.entities.Box
+import com.mcmouse.nav_tabs.models.boxes.entities.BoxAndSettings
 
 class SettingsAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<SettingsAdapter.SettingsHolder>(), View.OnClickListener {
 
-    private var settings: List<BoxSetting> = emptyList()
+    private var settings: List<BoxAndSettings> = emptyList()
 
     override fun onClick(view: View?) {
         val checkBox = view as CheckBox
@@ -37,8 +38,8 @@ class SettingsAdapter(
         val context = holder.itemView.context
         holder.checkBox.tag = setting.box
 
-        if (holder.checkBox.isChecked != setting.enabled) {
-            holder.checkBox.isChecked = setting.enabled
+        if (holder.checkBox.isChecked != setting.isActive) {
+            holder.checkBox.isChecked = setting.isActive
         }
 
         val colorName = setting.box.colorName
@@ -47,9 +48,9 @@ class SettingsAdapter(
 
     override fun getItemCount() = settings.size
 
-    fun renderSettings(setting: List<BoxSetting>) {
-        val diffResult = DiffUtil.calculateDiff(BoxSettingsDiffCallBack(this.settings, setting))
-        this.settings = setting
+    fun renderSettings(settings: List<BoxAndSettings>) {
+        val diffResult = DiffUtil.calculateDiff(BoxSettingsDiffCallBack(this.settings, settings))
+        this.settings = settings
         diffResult.dispatchUpdatesTo(this)
     }
 

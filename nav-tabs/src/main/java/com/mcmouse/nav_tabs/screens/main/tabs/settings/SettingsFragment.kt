@@ -24,7 +24,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = FragmentSettingsBinding.bind(view)
 
         val adapter = setupList()
-        viewModel.boxSetting.observe(viewLifecycleOwner) { adapter.renderSettings(it) }
+        viewModel.boxSettings.observe(viewLifecycleOwner) { adapter.renderSettings(it) }
 
         viewModel.showErrorMessageEvent.observeEvent(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()

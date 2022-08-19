@@ -1,7 +1,6 @@
 package com.mcmouse.nav_tabs.screens.main.auth
 
 import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
