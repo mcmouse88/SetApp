@@ -10,6 +10,7 @@ import com.mcmouse.nav_tabs.R
 import com.mcmouse.nav_tabs.Repositories
 import com.mcmouse.nav_tabs.databinding.FragmentSignInBinding
 import com.mcmouse.nav_tabs.utils.observeEvent
+import com.mcmouse.nav_tabs.utils.toCharArray
 import com.mcmouse.nav_tabs.utils.viewModelCreator
 
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
@@ -35,7 +36,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     private fun onSignInButtonPressed() {
         viewModel.signIn(
             email = binding.etEmail.text.toString(),
-            password = binding.etPassword.text.toString()
+            password = binding.etPassword.text.toCharArray()
         )
     }
 

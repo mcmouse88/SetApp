@@ -12,7 +12,7 @@ import com.mcmouse.nav_tabs.screens.main.MainActivityArgs
 import com.mcmouse.nav_tabs.utils.observeEvent
 import com.mcmouse.nav_tabs.utils.viewModelCreator
 
-class SplashFragment : Fragment(R.layout.fragment_splash) {
+class   SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private var _binding: FragmentSplashBinding? = null
     private val binding: FragmentSplashBinding

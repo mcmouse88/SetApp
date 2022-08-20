@@ -10,5 +10,9 @@
     <item android:id="@id/settings_graph"
         android:title="@string/settings"
         android:icon="@drawable/ic_settings" />
+    <item android:id="@id/admin_graph"
+        android:title="@string/admin_panel"
+        android:visible="false"
+        android:icon="@drawable/ic_admin" />
 
 </menu>

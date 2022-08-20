@@ -1,10 +1,7 @@
 package com.mcmouse.nav_tabs.models.accounts.room
 
 import androidx.room.*
-import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountAndEditBoxesTuple
-import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountDbEntity
-import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountSignInTuple
-import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountUpdateUserNameTuple
+import com.mcmouse.nav_tabs.models.accounts.room.entity.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -31,4 +28,8 @@ interface AccountsDao {
     @Transaction
     @Query("SELECT * FROM accounts WHERE accounts.user_id = :accountId")
     fun getAccountAndEditedBoxes(accountId: Long): AccountAndEditBoxesTuple
+
+    @Transaction
+    @Query("SELECT * FROM accounts")
+    fun getAllData(): Flow<List<AccountAndAllSettingsTuple>>
 }

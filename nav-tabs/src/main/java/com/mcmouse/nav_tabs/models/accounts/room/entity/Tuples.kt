@@ -6,6 +6,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.mcmouse.nav_tabs.models.boxes.room.entities.AccountBoxSettingDbEntity
 import com.mcmouse.nav_tabs.models.boxes.room.entities.BoxDbEntity
+import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsDbView
 
 /**
  * Tuple используется для того, чтобы получить только определенную информацию из базы данных
@@ -47,4 +48,23 @@ data class AccountAndEditBoxesTuple(
         )
     )
     val boxes: List<BoxDbEntity>
+)
+
+data class AccountAndAllSettingsTuple(
+    @Embedded val accountDbEntity: AccountDbEntity,
+    @Relation(
+        parentColumn = "user_id",
+        entityColumn = "account_id",
+        entity = SettingsDbView::class
+    )
+    val settings: List<SettingAndBoxTuple>
+)
+
+data class SettingAndBoxTuple(
+    @Embedded val accountAndAllSettingsTuple: SettingsDbView,
+    @Relation(
+        parentColumn = "box_user_id",
+        entityColumn = "box_id"
+    )
+    val boxDbEntity: BoxDbEntity
 )

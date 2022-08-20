@@ -13,6 +13,7 @@ import com.mcmouse.nav_tabs.Repositories
 import com.mcmouse.nav_tabs.databinding.FragmentSignUpBinding
 import com.mcmouse.nav_tabs.models.accounts.entities.SignUpData
 import com.mcmouse.nav_tabs.utils.observeEvent
+import com.mcmouse.nav_tabs.utils.toCharArray
 import com.mcmouse.nav_tabs.utils.viewModelCreator
 
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
@@ -43,8 +44,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         val signUpData = SignUpData(
             email = binding.etEmail.text.toString(),
             username = binding.etUsername.text.toString(),
-            password = binding.etPassword.text.toString(),
-            repeatPassword = binding.etRepeatPassword.text.toString()
+            password = binding.etPassword.text.toCharArray(),
+            repeatPassword = binding.etRepeatPassword.text.toCharArray()
         )
         viewModel.signUp(signUpData)
     }

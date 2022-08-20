@@ -7,9 +7,11 @@ import com.mcmouse.nav_tabs.models.EmptyFieldException
 import com.mcmouse.nav_tabs.models.Field
 import com.mcmouse.nav_tabs.models.accounts.AccountsRepository
 import com.mcmouse.nav_tabs.models.accounts.entities.Account
+import com.mcmouse.nav_tabs.models.accounts.entities.AccountFullData
 import com.mcmouse.nav_tabs.models.accounts.entities.SignUpData
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountDbEntity
 import com.mcmouse.nav_tabs.models.accounts.room.entity.AccountUpdateUserNameTuple
+import com.mcmouse.nav_tabs.models.boxes.entities.BoxAndSettings
 import com.mcmouse.nav_tabs.models.room.wrapSQLiteException
 import com.mcmouse.nav_tabs.models.settings.AppSettings
 import com.mcmouse.nav_tabs.utils.AsyncLoader
@@ -32,9 +34,9 @@ class RoomAccountsRepository(
         return appSettings.getCurrentAccountId() != AppSettings.NO_ACCOUNT_ID
     }
 
-    override suspend fun signIn(email: String, password: String) = wrapSQLiteException(ioDispatcher) {
+    override suspend fun signIn(email: String, password: CharArray) = wrapSQLiteException(ioDispatcher) {
         if (email.isBlank()) throw EmptyFieldException(Field.Email)
-        if (password.isBlank()) throw EmptyFieldException(Field.Password)
+        if (password.isEmpty()) throw EmptyFieldException(Field.Password)
 
         delay(1_000)
 
@@ -77,9 +79,28 @@ class RoomAccountsRepository(
         return@wrapSQLiteException
     }
 
-    private suspend fun findAccountIdByEmailAndPassword(email: String, password: String): Long {
+    override suspend fun getAllData(): Flow<List<AccountFullData>> {
+        val account = getAccount().first()
+        if (account == null || !account.isAdmin()) throw AuthException()
+        return accountsDao.getAllData()
+            .map { accountsAndSettings ->
+                accountsAndSettings.map { accountsAndSettingsTuple ->
+                    AccountFullData(
+                        account = accountsAndSettingsTuple.accountDbEntity.toAccount(),
+                        boxAndSettings = accountsAndSettingsTuple.settings.map {
+                            BoxAndSettings(
+                                box = it.boxDbEntity.toBox(),
+                                isActive = it.accountAndAllSettingsTuple.settings.isActive
+                            )
+                        }
+                    )
+                }
+            }
+    }
+
+    private suspend fun findAccountIdByEmailAndPassword(email: String, password: CharArray): Long {
         val tuple = accountsDao.findByEmail(email) ?: throw AuthException()
-        if (tuple.password != password) throw AuthException()
+        if (!tuple.password.toCharArray().contentEquals(password)) throw AuthException()
         return tuple.userId
     }
 

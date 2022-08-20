@@ -6,13 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.mcmouse.nav_tabs.R
+import com.mcmouse.nav_tabs.Repositories
 import com.mcmouse.nav_tabs.databinding.FragmentTabsBinding
+import com.mcmouse.nav_tabs.utils.viewModelCreator
 
 class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
     private var _binding: FragmentTabsBinding? = null
     private val binding: FragmentTabsBinding
         get() = _binding ?: throw NullPointerException("FragmentTabsBinding is null")
+
+    private val viewModel by viewModelCreator { TabsViewModel(Repositories.accountsRepository) }
 
     /**
      * Чтобы подключить navigation component к bottomNavigationView нам нужно получить
@@ -31,6 +35,14 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+
+        observeAdminTab()
+    }
+
+    private fun observeAdminTab() {
+        viewModel.showAdminTab.observe(viewLifecycleOwner) {
+            binding.bottomNavigationView.menu.findItem(R.id.admin_graph).isVisible = it
+        }
     }
 
     override fun onDestroyView() {

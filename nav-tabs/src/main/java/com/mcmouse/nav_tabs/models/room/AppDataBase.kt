@@ -10,7 +10,7 @@ import com.mcmouse.nav_tabs.models.boxes.room.entities.BoxDbEntity
 import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsDbView
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [AccountDbEntity::class, BoxDbEntity::class, AccountBoxSettingDbEntity::class],
     views = [SettingsDbView::class]
 )

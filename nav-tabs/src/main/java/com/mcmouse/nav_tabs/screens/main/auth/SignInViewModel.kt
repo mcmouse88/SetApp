@@ -27,7 +27,7 @@ class SignInViewModel(
     private val _navigateToTabsEvent = MutableUnitLiveEvent()
     val navigateToTabsEvent = _navigateToTabsEvent.share()
 
-    fun signIn(email: String, password: String) = viewModelScope.launch {
+    fun signIn(email: String, password: CharArray) = viewModelScope.launch {
         showProgress()
         try {
             accountsRepository.signIn(email, password)
