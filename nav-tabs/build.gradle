@@ -20,7 +20,7 @@ android {
         // Явно указывает, где будет находится схема базы данных
         kapt {
             arguments {
-                arg("room.shemaLocation", "$projectDir/nav-tabs/shemas")
+                arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
     }
@@ -54,7 +54,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
     implementation 'androidx.core:core-ktx:1.8.0'

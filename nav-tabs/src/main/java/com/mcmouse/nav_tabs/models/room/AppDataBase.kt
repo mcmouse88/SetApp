@@ -16,14 +16,15 @@ import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsDbView
  * класс spec, при помощи которого юудет организована миграция.
  */
 @Database(
-    version = 6,
+    version = 8,
     entities = [AccountDbEntity::class, BoxDbEntity::class, AccountBoxSettingDbEntity::class],
     views = [SettingsDbView::class],
     autoMigrations = [AutoMigration(
-        from = 5,
-        to = 6,
+        from = 6,
+        to = 7,
         spec = AutoMigrationSpec1To2::class
-    )]
+    )],
+    exportSchema = true
 )
 abstract class AppDataBase : RoomDatabase() {
 
