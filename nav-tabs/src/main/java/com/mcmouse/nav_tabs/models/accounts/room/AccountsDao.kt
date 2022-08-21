@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AccountsDao {
 
-    @Query("SELECT user_id, password FROM accounts WHERE email = :email")
+    @Query("SELECT user_id, hash, salt FROM accounts WHERE email = :email")
     suspend fun findByEmail(email: String): AccountSignInTuple?
 
     /**

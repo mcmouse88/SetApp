@@ -9,12 +9,18 @@ import com.mcmouse.nav_tabs.models.boxes.room.RoomBoxesRepository
 import com.mcmouse.nav_tabs.models.room.AppDataBase
 import com.mcmouse.nav_tabs.models.settings.AppSettings
 import com.mcmouse.nav_tabs.models.settings.SharedPreferencesAppSettings
+import com.mcmouse.nav_tabs.utils.security.DefaultSecurityUtilsImpl
+import com.mcmouse.nav_tabs.utils.security.SecurityUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 object Repositories {
 
     private lateinit var appContext: Context
+
+    val securityUtils: SecurityUtils by lazy {
+        DefaultSecurityUtilsImpl()
+    }
 
     /**
      * Чтобы создать базу данных через класс [SQLiteHelper] нужно в его конструктор передать
@@ -35,11 +41,11 @@ object Repositories {
     }
 
     val accountsRepository: AccountsRepository by lazy {
-        RoomAccountsRepository(database.getAccountsDao(), appSettings, ioDispatcher)
+        RoomAccountsRepository(database.getAccountsDao(), appSettings, securityUtils, ioDispatcher)
     }
 
     val boxesRepository: BoxesRepository by lazy {
-        RoomBoxesRepository(database.getBoxesDao()  , accountsRepository, ioDispatcher)
+        RoomBoxesRepository(database.getBoxesDao(), accountsRepository, ioDispatcher)
     }
 
     fun init(context: Context) {

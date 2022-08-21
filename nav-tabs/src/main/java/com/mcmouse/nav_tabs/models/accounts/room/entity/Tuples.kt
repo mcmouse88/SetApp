@@ -16,7 +16,8 @@ import com.mcmouse.nav_tabs.models.boxes.room.views.SettingsDbView
  */
 data class AccountSignInTuple(
     @ColumnInfo(name = "user_id") val userId: Long,
-    val password: String
+    @ColumnInfo(name = "hash") val hash: String,
+    @ColumnInfo(name = "salt") val salt: String
 )
 
 /**
