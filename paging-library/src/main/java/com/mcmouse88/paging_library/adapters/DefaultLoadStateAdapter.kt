@@ -11,6 +11,9 @@ import com.mcmouse88.paging_library.databinding.PartDefaultLoadStateBinding
 
 typealias TryAgainAction = () -> Unit
 
+/**
+ * Этот адаптер нужен для того, чтобы отрисовывать ProgressBar или сообщение об ошибке.
+ */
 class DefaultLoadStateAdapter(
     private val tryAgainAction: TryAgainAction
 ) : LoadStateAdapter<DefaultLoadStateAdapter.Holder>() {

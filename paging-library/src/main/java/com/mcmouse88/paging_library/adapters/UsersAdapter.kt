@@ -11,6 +11,11 @@ import com.mcmouse88.paging_library.R
 import com.mcmouse88.paging_library.databinding.ItemUserBinding
 import com.mcmouse88.paging_library.model.users.User
 
+/**
+ * Если мы хотим, чтобы данные отображались постранично, то нужно адаптер унаследовать от
+ * [PagingDataAdapter], сожержащий два параметра, это тип который будем отрисовывать, то есть
+ * [User], и [ViewHolder]
+ */
 class UsersAdapter : PagingDataAdapter<User, UsersAdapter.Holder>(UsersDiffCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {

@@ -45,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         setupEnableErrorsCheckBox()
     }
 
+    /**
+     * Чтобы объеденить два адаптреа, в основном адаптере вызовем метод [withLoadStateFooter()],
+     * в который в качестве параметра передадим второй адаптре, отвечающий за отображение
+     * ProgressBar и сообщения об ошибке, после чего этот объединенный адаптре назначается
+     * RecyclerView.
+     */
     private fun setupUsersList() {
         val adapter = UsersAdapter()
         val tryAgainAction: TryAgainAction = { adapter.retry() }

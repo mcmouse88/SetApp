@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Paging-Library</string>
-    <string name="Oops_can_t_load_data">oops, can\'t load data</string>
+    <string name="oops_can_t_load_data">Oops, can\'t load data</string>
     <string name="try_again">Try Again</string>
     <string name="user_s_photo">User\'s photo</string>
     <string name="search_by">Search By</string>
