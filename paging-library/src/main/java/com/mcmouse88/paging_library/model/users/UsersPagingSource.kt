@@ -17,8 +17,7 @@ typealias UsersPageLoader = suspend (pageIndex: Int, pageSize: Int) -> List<User
  * кодер.
  */
 class UsersPagingSource(
-    private val loader: UsersPageLoader,
-    private val pageSize: Int
+    private val loader: UsersPageLoader
 ) : PagingSource<Int, User>() {
 
     /**
@@ -36,7 +35,7 @@ class UsersPagingSource(
     override fun getRefreshKey(state: PagingState<Int, User>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
-        return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
+        return page.nextKey?.minus(1) ?: page.prevKey?.plus(1)
     }
 
     /**
@@ -66,9 +65,7 @@ class UsersPagingSource(
             return LoadResult.Page(
                 data = users,
                 prevKey = if (pageIndex == 0) null else pageIndex - 1,
-                nextKey = if (users.size == params.loadSize) {
-                     pageIndex + (params.loadSize / pageSize)
-                }  else null
+                nextKey = if (users.size == params.loadSize) pageIndex + 1 else null
             )
         } catch (e: Exception) {
             LoadResult.Error(

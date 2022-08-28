@@ -36,6 +36,7 @@ class RoomUsersRepository(
      * это количество элементов при стартовой загрузке, которое по умолчание равно pageSize * 3. А
      * также нужно передать парметр [pagingSourceFactory], который создаст объект типа
      * [PagingSource], в котором мы прописывали логику загрузки и обновления загрузки данных.
+     * Параметр prefetchDistance указывает в какой момент нужно начинать загружать новые данные
      */
     override fun getPagedUsers(searchBy: String): Flow<PagingData<User>> {
         val loader: UsersPageLoader = { pageIndex, pageSize ->
@@ -44,24 +45,44 @@ class RoomUsersRepository(
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { UsersPagingSource(loader, PAGE_SIZE) }
+            pagingSourceFactory = { UsersPagingSource(loader) }
         ).flow
+    }
+
+    override suspend fun setIsFavorite(user: User, isFavorite: Boolean) = withContext(ioDispatcher) {
+        delay(1_000)
+        throwErrorsIfEnabled()
+
+        val tuple = UpdateUserFavoriteFlagTuple(user.id, isFavorite)
+        usersDao.setIsFavorite(tuple)
+    }
+
+    override suspend fun delete(user: User) {
+        delay(1_000)
+        throwErrorsIfEnabled()
+        usersDao.delete(IdTuple(user.id))
     }
 
     private suspend fun getUsers(pageIndex: Int, pageSize: Int, searchBy: String): List<User>
     = withContext(ioDispatcher) {
         delay(2_000)
-        if (enableErrorsFlow.value) throw IllegalStateException("Error!")
+        throwErrorsIfEnabled()
 
         val offset = pageIndex * pageSize
-        val list = usersDao.getUsers(pageSize, pageIndex, searchBy)
+        val list = usersDao.getUsers(pageSize, offset, searchBy)
 
         return@withContext list.map(UserDbEntity::toUser)
     }
 
+    private fun throwErrorsIfEnabled() {
+        if (enableErrorsFlow.value) throw IllegalStateException("Error!")
+    }
+
     private companion object {
-        const val PAGE_SIZE = 20
+        const val PAGE_SIZE = 40
     }
 }

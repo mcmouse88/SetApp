@@ -16,13 +16,15 @@ data class UserDbEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(collate = ColumnInfo.NOCASE) val name: String,
     val company: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val isFavorite: Boolean
 ) {
 
     fun toUser(): User = User(
         id = id,
         name = name,
         company = company,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        isFavorite = isFavorite
     )
 }

@@ -59,7 +59,6 @@ class InMemoryColorsRepository(
      * оператора.
      */
     override fun setCurrentColor(color: NamedColor): Flow<Int> = flow {
-        Log.e("AAAAAAAA", "setCurrentColor", )
         if (currentColor != color) {
             var progress = 0
             while (progress < 100) {

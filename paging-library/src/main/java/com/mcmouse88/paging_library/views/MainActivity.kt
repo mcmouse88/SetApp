@@ -1,6 +1,7 @@
 package com.mcmouse88.paging_library.views
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.widget.addTextChangedListener
@@ -13,6 +14,7 @@ import com.mcmouse88.paging_library.adapters.DefaultLoadStateAdapter
 import com.mcmouse88.paging_library.adapters.TryAgainAction
 import com.mcmouse88.paging_library.adapters.UsersAdapter
 import com.mcmouse88.paging_library.databinding.ActivityMainBinding
+import com.mcmouse88.paging_library.observeEvent
 import com.mcmouse88.paging_library.simpleScan
 import com.mcmouse88.paging_library.viewModelCreator
 import kotlinx.coroutines.FlowPreview
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         setupSearchInput()
         setupSwipeToRefresh()
         setupEnableErrorsCheckBox()
+
+        observeErrorMessages()
     }
 
     /**
@@ -52,11 +56,12 @@ class MainActivity : AppCompatActivity() {
      * RecyclerView.
      */
     private fun setupUsersList() {
-        val adapter = UsersAdapter()
+        val adapter = UsersAdapter(mainViewModel)
         val tryAgainAction: TryAgainAction = { adapter.retry() }
 
         val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
-        val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
+        val headerAdapter = DefaultLoadStateAdapter(tryAgainAction)
+        val adapterWithLoadState = adapter.withLoadStateHeaderAndFooter(headerAdapter, footerAdapter)
 
         binding.apply {
             rvUsers.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -72,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         observeUsers(adapter)
         observeLoadState(adapter)
+        observeInvalidateEvents(adapter)
 
         handleScrollingToTopWhenSearching(adapter)
         handleListVisibility(adapter)
@@ -111,7 +117,8 @@ class MainActivity : AppCompatActivity() {
         getRefreshLoadStateFlow(adapter)
             .simpleScan(count = 2)
             .collectLatest { (previousState, currentState) ->
-                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading
+                    && mainViewModel.scrollEvents.value?.get() != null) {
                     binding.rvUsers.scrollToPosition(0)
                 }
             }
@@ -140,6 +147,18 @@ class MainActivity : AppCompatActivity() {
         }
         binding.cbError.setOnCheckedChangeListener { _, isChecked ->
             mainViewModel.setEnableErrors(isChecked)
+        }
+    }
+
+    private fun observeErrorMessages() {
+        mainViewModel.errorEvents.observeEvent(this) { messageRes ->
+            Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun observeInvalidateEvents(adapter: UsersAdapter) {
+        mainViewModel.invalidateEvents.observeEvent(this) {
+            adapter.refresh()
         }
     }
 

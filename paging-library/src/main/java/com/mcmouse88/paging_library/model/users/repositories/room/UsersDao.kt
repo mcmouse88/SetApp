@@ -1,7 +1,9 @@
 package com.mcmouse88.paging_library.model.users.repositories.room
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
+import androidx.room.Update
 import androidx.viewpager2.widget.ViewPager2
 
 @Dao
@@ -16,4 +18,10 @@ interface UsersDao {
     "ORDER BY name " +
     "LIMIT :limit OFFSET :offset")
     suspend fun getUsers(limit: Int, offset: Int, searchBy: String = ""): List<UserDbEntity>
+
+    @Update(entity = UserDbEntity::class)
+    suspend fun setIsFavorite(tuple: UpdateUserFavoriteFlagTuple)
+
+    @Delete(entity = UserDbEntity::class)
+    suspend fun delete(idTuple: IdTuple)
 }

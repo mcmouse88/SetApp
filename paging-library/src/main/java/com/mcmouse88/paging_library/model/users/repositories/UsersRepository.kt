@@ -11,4 +11,8 @@ interface UsersRepository {
     fun setErrorEnabled(value: Boolean)
 
     fun getPagedUsers(searchBy: String): Flow<PagingData<User>>
+
+    suspend fun setIsFavorite(user: User, isFavorite: Boolean)
+
+    suspend fun delete(user: User)
 }

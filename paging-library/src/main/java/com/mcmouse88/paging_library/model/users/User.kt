@@ -4,5 +4,6 @@ data class User(
     val id: Long,
     val imageUrl: String,
     val name: String,
-    val company: String
+    val company: String,
+    val isFavorite: Boolean
 )
