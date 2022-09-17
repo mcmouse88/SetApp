@@ -8,7 +8,7 @@ import com.mcmouse88.okhttp.app.model.boxes.BoxesRepository
 import com.mcmouse88.okhttp.app.model.boxes.BoxesSource
 import com.mcmouse88.okhttp.app.model.settings.AppSettings
 import com.mcmouse88.okhttp.app.model.settings.SharedPreferencesAppSettings
-import com.mcmouse88.okhttp.source.SourceProviderHolder
+import com.mcmouse88.okhttp.source_retrofit.SourceProviderHolder
 
 object Singletons {
 
