@@ -3,19 +3,20 @@ package com.mcmouse88.okhttp.app.screens.main.auth
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mcmouse88.okhttp.R
-import com.mcmouse88.okhttp.app.Singletons
 import com.mcmouse88.okhttp.app.model.EmptyFieldException
 import com.mcmouse88.okhttp.app.model.Field
 import com.mcmouse88.okhttp.app.model.InvalidCredentialsException
 import com.mcmouse88.okhttp.app.model.accounts.AccountsRepository
 import com.mcmouse88.okhttp.app.screens.base.BaseViewModel
 import com.mcmouse88.okhttp.app.utiils.*
-import com.mcmouse88.okhttp.app.utiils.logger.LogcatLogger
 import com.mcmouse88.okhttp.app.utiils.logger.Logger
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignInViewModel(
-    private val accountsRepository: AccountsRepository = Singletons.accountsRepository,
-    private val logger: Logger = LogcatLogger
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val accountsRepository: AccountsRepository,
+    logger: Logger
 ) : BaseViewModel(accountsRepository, logger) {
 
     private val _state = MutableLiveData(State())

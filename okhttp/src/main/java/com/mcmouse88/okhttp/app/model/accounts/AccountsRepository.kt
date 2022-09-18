@@ -7,8 +7,11 @@ import com.mcmouse88.okhttp.app.model.settings.AppSettings
 import com.mcmouse88.okhttp.app.model.wrapBackendException
 import com.mcmouse88.okhttp.app.utiils.async.LazyFlowSubject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AccountsRepository(
+@Singleton
+class AccountsRepository @Inject constructor(
     private val accountsSource: AccountsSource,
     private val appSettings: AppSettings
 ) {

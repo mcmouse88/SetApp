@@ -9,7 +9,9 @@ import com.mcmouse88.okhttp.R
 import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.observeEvent
 import com.mcmouse88.okhttp.databinding.FragmentSignInBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
     override val viewModel by viewModels<SignInViewModel>()

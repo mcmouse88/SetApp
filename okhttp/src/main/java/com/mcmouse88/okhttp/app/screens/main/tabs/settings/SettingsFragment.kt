@@ -8,7 +8,9 @@ import com.mcmouse88.okhttp.R
 import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.observeResult
 import com.mcmouse88.okhttp.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override val viewModel by viewModels<SettingsViewModel>()

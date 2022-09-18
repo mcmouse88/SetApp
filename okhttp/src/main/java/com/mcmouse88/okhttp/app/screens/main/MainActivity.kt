@@ -11,11 +11,12 @@ import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.mcmouse88.okhttp.R
-import com.mcmouse88.okhttp.app.Singletons
 import com.mcmouse88.okhttp.app.screens.main.tabs.TabsFragment
 import com.mcmouse88.okhttp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -44,11 +45,11 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Singletons.init(applicationContext)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+
         setSupportActionBar(binding.toolbar)
         val navController = getRootNavController()
         prepareNavController(isSignedIn(), navController)

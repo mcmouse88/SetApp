@@ -10,7 +10,9 @@ import com.mcmouse88.okhttp.app.screens.main.MainActivity
 import com.mcmouse88.okhttp.app.screens.main.MainActivityArgs
 import com.mcmouse88.okhttp.app.utiils.observeEvent
 import com.mcmouse88.okhttp.databinding.FragmentSplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private var _binding: FragmentSplashBinding? = null

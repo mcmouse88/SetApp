@@ -13,7 +13,9 @@ import com.mcmouse88.okhttp.app.model.accounts.entities.SignUpData
 import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.observeEvent
 import com.mcmouse88.okhttp.databinding.FragmentSignUpBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     override val viewModel by viewModels<SignUpViewModel>()

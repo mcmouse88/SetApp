@@ -9,9 +9,11 @@ import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.findTopNavController
 import com.mcmouse88.okhttp.app.utiils.observeResult
 import com.mcmouse88.okhttp.databinding.FragmentProfileBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override val viewModel by viewModels<ProfileViewModel>()

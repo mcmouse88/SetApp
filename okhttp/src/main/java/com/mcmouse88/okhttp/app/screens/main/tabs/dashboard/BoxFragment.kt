@@ -2,6 +2,7 @@ package com.mcmouse88.okhttp.app.screens.main.tabs.dashboard
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mcmouse88.okhttp.R
@@ -10,10 +11,17 @@ import com.mcmouse88.okhttp.app.utiils.observeEvent
 import com.mcmouse88.okhttp.app.utiils.viewModelCreator
 import com.mcmouse88.okhttp.app.views.DashboardItemView
 import com.mcmouse88.okhttp.databinding.FragmentBoxBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BoxFragment : BaseFragment(R.layout.fragment_box) {
 
-    override val viewModel by viewModelCreator { BoxViewModel(getBoxId()) }
+    @Inject lateinit var factory: BoxViewModel.Factory
+
+    override val viewModel by viewModelCreator {
+        factory.create(args.boxId)
+    }
 
     private var _binding: FragmentBoxBinding? = null
     private val binding: FragmentBoxBinding

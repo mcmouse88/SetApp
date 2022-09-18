@@ -8,8 +8,11 @@ import com.mcmouse88.okhttp.source_retrofit.boxes.entity.UpdateBoxRequestEntity
 import com.mcmouse88.okhttp.source_retrofit.base.BaseRetrofitSource
 import com.mcmouse88.okhttp.source_retrofit.base.RetrofitConfig
 import kotlinx.coroutines.delay
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitBoxesSource(
+@Singleton
+class RetrofitBoxesSource @Inject constructor(
     config: RetrofitConfig
 ) : BaseRetrofitSource(config), BoxesSource {
 

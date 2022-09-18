@@ -3,24 +3,25 @@ package com.mcmouse88.okhttp.app.screens.main.tabs.profile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mcmouse88.okhttp.R
-import com.mcmouse88.okhttp.app.Singletons
 import com.mcmouse88.okhttp.app.model.EmptyFieldException
 import com.mcmouse88.okhttp.app.model.Success
 import com.mcmouse88.okhttp.app.model.accounts.AccountsRepository
 import com.mcmouse88.okhttp.app.screens.base.BaseViewModel
 import com.mcmouse88.okhttp.app.utiils.MutableLiveEvent
 import com.mcmouse88.okhttp.app.utiils.MutableUnitLiveEvent
-import com.mcmouse88.okhttp.app.utiils.logger.LogcatLogger
 import com.mcmouse88.okhttp.app.utiils.logger.Logger
 import com.mcmouse88.okhttp.app.utiils.publishEvent
 import com.mcmouse88.okhttp.app.utiils.share
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditProfileViewModel(
-    private val accountsRepository: AccountsRepository = Singletons.accountsRepository,
-    logger: Logger = LogcatLogger
+@HiltViewModel
+class EditProfileViewModel @Inject constructor(
+    private val accountsRepository: AccountsRepository,
+    logger: Logger
 ) : BaseViewModel(accountsRepository, logger) {
 
     private val _initialUserNameEvent = MutableLiveEvent<String>()

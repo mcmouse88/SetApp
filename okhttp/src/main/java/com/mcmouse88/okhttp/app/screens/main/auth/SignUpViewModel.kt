@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mcmouse88.okhttp.R
-import com.mcmouse88.okhttp.app.Singletons
 import com.mcmouse88.okhttp.app.model.AccountAlreadyExistException
 import com.mcmouse88.okhttp.app.model.EmptyFieldException
 import com.mcmouse88.okhttp.app.model.Field
@@ -13,12 +12,14 @@ import com.mcmouse88.okhttp.app.model.accounts.AccountsRepository
 import com.mcmouse88.okhttp.app.model.accounts.entities.SignUpData
 import com.mcmouse88.okhttp.app.screens.base.BaseViewModel
 import com.mcmouse88.okhttp.app.utiils.*
-import com.mcmouse88.okhttp.app.utiils.logger.LogcatLogger
 import com.mcmouse88.okhttp.app.utiils.logger.Logger
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignUpViewModel(
-    private val accountRepository: AccountsRepository = Singletons.accountsRepository,
-    logger: Logger = LogcatLogger
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val accountRepository: AccountsRepository,
+    logger: Logger
 ) : BaseViewModel(accountRepository, logger) {
 
     private val _goBackEvent = MutableUnitLiveEvent()

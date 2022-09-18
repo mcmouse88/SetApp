@@ -2,22 +2,23 @@ package com.mcmouse88.okhttp.app.screens.main.tabs.dashboard
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mcmouse88.okhttp.app.Singletons
 import com.mcmouse88.okhttp.app.model.ResultResponse
 import com.mcmouse88.okhttp.app.model.accounts.AccountsRepository
 import com.mcmouse88.okhttp.app.model.boxes.BoxesRepository
 import com.mcmouse88.okhttp.app.model.boxes.entities.Box
 import com.mcmouse88.okhttp.app.model.boxes.entities.BoxesFilter
 import com.mcmouse88.okhttp.app.screens.base.BaseViewModel
-import com.mcmouse88.okhttp.app.utiils.logger.LogcatLogger
 import com.mcmouse88.okhttp.app.utiils.logger.Logger
 import com.mcmouse88.okhttp.app.utiils.share
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashboardViewModel(
-    private val boxesRepository: BoxesRepository = Singletons.boxesRepository,
-    accountsRepository: AccountsRepository = Singletons.accountsRepository,
-    logger: Logger = LogcatLogger
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
+    private val boxesRepository: BoxesRepository,
+    accountsRepository: AccountsRepository,
+    logger: Logger
 ) : BaseViewModel(accountsRepository, logger) {
 
     private val _boxes = MutableLiveData<ResultResponse<List<Box>>>()

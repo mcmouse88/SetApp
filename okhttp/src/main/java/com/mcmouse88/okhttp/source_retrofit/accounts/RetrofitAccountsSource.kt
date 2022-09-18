@@ -9,8 +9,11 @@ import com.mcmouse88.okhttp.source_retrofit.accounts.entities.UpdateUsernameRequ
 import com.mcmouse88.okhttp.source_retrofit.base.BaseRetrofitSource
 import com.mcmouse88.okhttp.source_retrofit.base.RetrofitConfig
 import kotlinx.coroutines.delay
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RetrofitAccountsSource(
+@Singleton
+class RetrofitAccountsSource @Inject constructor(
     config: RetrofitConfig
 ) : BaseRetrofitSource(config), AccountsSource {
 

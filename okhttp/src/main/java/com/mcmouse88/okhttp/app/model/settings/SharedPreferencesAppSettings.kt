@@ -1,9 +1,16 @@
 package com.mcmouse88.okhttp.app.model.settings
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class SharedPreferencesAppSettings(
-    appContext: Context
+/**
+ * Также у hilt имеются встроенные квалификаторы. Квалификаторы используются для указания hilt
+ * какую сущность использовать для внедрения зависимости в конструктор, в данном случае
+ * используется квалификатор [ApplicationContext], есть также квалификатор [ActivityContext] и т.д.
+ */
+class SharedPreferencesAppSettings @Inject constructor(
+    @ApplicationContext appContext: Context
 ) : AppSettings {
 
     private val sharedPreferences =

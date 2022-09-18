@@ -15,8 +15,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BoxesRepository(
+@Singleton
+class BoxesRepository @Inject constructor(
     private val accountsRepository: AccountsRepository,
     private val boxesSource: BoxesSource
 ) {

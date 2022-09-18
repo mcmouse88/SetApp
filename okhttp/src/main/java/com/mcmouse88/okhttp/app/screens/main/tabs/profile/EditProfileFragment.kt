@@ -9,7 +9,9 @@ import com.mcmouse88.okhttp.R
 import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.observeEvent
 import com.mcmouse88.okhttp.databinding.FragmentEditProfileBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditProfileFragment : BaseFragment(R.layout.fragment_edit_profile) {
 
     override val viewModel by viewModels<EditProfileViewModel>()

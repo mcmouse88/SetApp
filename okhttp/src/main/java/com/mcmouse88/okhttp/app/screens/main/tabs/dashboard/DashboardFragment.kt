@@ -11,7 +11,9 @@ import com.mcmouse88.okhttp.app.screens.base.BaseFragment
 import com.mcmouse88.okhttp.app.utiils.observeResult
 import com.mcmouse88.okhttp.app.views.DashboardItemView
 import com.mcmouse88.okhttp.databinding.FragmentDashboardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
 
     override val viewModel by viewModels<DashboardViewModel>()
