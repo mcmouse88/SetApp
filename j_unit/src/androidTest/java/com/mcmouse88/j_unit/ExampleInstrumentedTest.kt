@@ -1,4 +1,4 @@
-package com.mcmouse88.box_quiz
+package com.mcmouse88.j_unit
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.mcmouse88.box_quiz", appContext.packageName)
+        assertEquals("com.mcmouse88.j_unit", appContext.packageName)
     }
 }
