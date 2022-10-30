@@ -1,7 +1,7 @@
 package com.mcmouse88.okhttp.di
 
-import com.mcmouse88.okhttp.app.utiils.logger.LogcatLogger
-import com.mcmouse88.okhttp.app.utiils.logger.Logger
+import com.mcmouse88.okhttp.utils.logger.LogcatLogger
+import com.mcmouse88.okhttp.utils.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

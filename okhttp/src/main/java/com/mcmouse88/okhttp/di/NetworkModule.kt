@@ -1,7 +1,7 @@
 package com.mcmouse88.okhttp.di
 
-import com.mcmouse88.okhttp.app.Const
-import com.mcmouse88.okhttp.app.model.settings.AppSettings
+import com.mcmouse88.okhttp.domain.settings.AppSettings
+import com.mcmouse88.okhttp.utils.Const
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

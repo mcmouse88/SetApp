@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".app.screens.main.tabs.profile.ProfileFragment">
+    tools:context=".presentation.main.tabs.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -110,7 +110,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_edit_profile" />
 
-        <com.mcmouse88.okhttp.app.views.ResultView
+        <com.mcmouse88.okhttp.views.ResultView
             android:id="@+id/resultView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

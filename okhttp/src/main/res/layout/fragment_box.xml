@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:gravity="center"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="app.screens.main.tabs.dashboard.BoxFragment" >
+    tools:context=".presentation.main.tabs.dashboard.BoxFragment" >
 
     <TextView
         android:id="@+id/tv_box"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.dashboard.DashboardFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.dashboard.DashboardFragment"
         android:label="@string/screen_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/boxFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.dashboard.BoxFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.dashboard.BoxFragment"
         android:label="@string/screen_box"
         tools:layout="@layout/fragment_box" >
         <argument

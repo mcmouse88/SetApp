@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.profile.ProfileFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.profile.ProfileFragment"
         android:label="@string/screen_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

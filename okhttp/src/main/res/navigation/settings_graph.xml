@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.settings.SettingsFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.settings.SettingsFragment"
         android:label="@string/screen_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

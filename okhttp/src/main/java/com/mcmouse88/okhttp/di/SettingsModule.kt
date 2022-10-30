@@ -1,7 +1,7 @@
 package com.mcmouse88.okhttp.di
 
-import com.mcmouse88.okhttp.app.model.settings.AppSettings
-import com.mcmouse88.okhttp.app.model.settings.SharedPreferencesAppSettings
+import com.mcmouse88.okhttp.data.settings.SharedPreferencesAppSettings
+import com.mcmouse88.okhttp.domain.settings.AppSettings
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

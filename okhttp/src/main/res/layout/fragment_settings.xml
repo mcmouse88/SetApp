@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.screens.main.tabs.settings.SettingsFragment">
+    tools:context=".presentation.main.tabs.settings.SettingsFragment">
 
     <TextView
         android:id="@+id/tv_screen_title"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_screen_title"
         tools:listitem="@layout/item_settings" />
 
-    <com.mcmouse88.okhttp.app.views.ResultView
+    <com.mcmouse88.okhttp.views.ResultView
         android:id="@+id/resultView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.auth.SignInFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.auth.SignInFragment"
         android:label="@string/screen_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.TabsFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs" >
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.tabs.profile.EditProfileFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.tabs.profile.EditProfileFragment"
         android:label="@string/screen_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.mcmouse88.okhttp.app.screens.main.auth.SignUpFragment"
+        android:name="com.mcmouse88.okhttp.presentation.main.auth.SignUpFragment"
         android:label="@string/screen_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <argument
