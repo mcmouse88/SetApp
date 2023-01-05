@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.mcmouse88.box_quiz.fragments.MenuFragment"
+        android:label="MenuFragment" >
+        <action
+            android:id="@+id/action_menuFragment_to_boxSelectionFragment"
+            app:destination="@id/boxSelectionFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_optionsFragment"
+            app:destination="@id/optionsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.mcmouse88.box_quiz.fragments.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/boxFragment"
+        android:name="com.mcmouse88.box_quiz.fragments.BoxFragment"
+        android:label="BoxFragment" />
+    <fragment
+        android:id="@+id/boxSelectionFragment"
+        android:name="com.mcmouse88.box_quiz.fragments.BoxSelectionFragment"
+        android:label="BoxSelectionFragment" >
+        <action
+            android:id="@+id/action_boxSelectionFragment_to_boxFragment"
+            app:destination="@id/boxFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.mcmouse88.box_quiz.fragments.OptionsFragment"
+        android:label="OptionsFragment" />
+</navigation>

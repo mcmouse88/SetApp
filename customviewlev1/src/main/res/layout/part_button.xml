@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Для создания своего компонента на уровне класса вместо родительского компонента
+нужно использовать тэг merge, и прописать схему tools parentTag с указанием
+родительского компонента. Тэг merge используется для того, чтобы система не создавала
+дополнительный ConstrainLayout внутри нашего компонента, то есть будет создан
+дополнительный уровень иерархии, а при использовании тэга merge будет использоваться
+всего один родительский элемент, вместо того, чтобы использовать один внутри другого-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/bt_positive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Positive Button"
+        app:layout_constraintStart_toEndOf="@id/space" />
+
+    <Button
+        android:id="@+id/bt_negative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Negative Button"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:rippleColor="#D8D8D8"
+        app:layout_constraintEnd_toStartOf="@id/space" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/bt_negative"
+        app:layout_constraintEnd_toStartOf="@id/bt_positive"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone" />
+
+
+</merge>

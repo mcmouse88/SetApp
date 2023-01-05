@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">User-List</string>
+    <string name="move_up">Move Up</string>
+    <string name="move_down">Move Down</string>
+    <string name="remove">Remove</string>
+    <string name="unemployed">[Unemployed]</string>
+    <string name="fire">Fire</string>
+</resources>

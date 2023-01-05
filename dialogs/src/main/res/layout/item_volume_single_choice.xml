@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcmouse88.anotherkindofapp.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <RadioButton
+        android:id="@+id/radio_bt_level_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_volume_value_level_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:textSize="14sp"
+        android:textColor="@color/purple_700"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/radio_bt_level_two"
+        app:layout_constraintTop_toTopOf="@id/radio_bt_level_two"
+        app:layout_constraintBottom_toTopOf="@id/tv_volume_value_label_level_two"
+        tools:text="65%" />
+
+    <TextView
+        android:id="@+id/tv_volume_value_label_level_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/level"
+        app:layout_constraintTop_toBottomOf="@id/tv_volume_value_level_two"
+        app:layout_constraintStart_toStartOf="@id/tv_volume_value_level_two" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_volume_value"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:progress="50"
+        app:layout_constraintStart_toEndOf="@id/tv_volume_value_label_level_two"
+        app:layout_constraintBottom_toBottomOf="@id/tv_volume_value_label_level_two"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</com.mcmouse88.anotherkindofapp.CheckableLayout>
