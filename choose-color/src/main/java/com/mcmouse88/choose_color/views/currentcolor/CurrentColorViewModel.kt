@@ -3,7 +3,6 @@ package com.mcmouse88.choose_color.views.currentcolor
 import android.Manifest
 import androidx.lifecycle.viewModelScope
 import com.mcmouse88.choose_color.R
-import com.mcmouse88.choose_color.model.colors.ColorListener
 import com.mcmouse88.choose_color.model.colors.ColorsRepository
 import com.mcmouse88.choose_color.model.colors.NamedColor
 import com.mcmouse88.choose_color.views.changecolor.ChangeColorFragment
@@ -22,7 +21,6 @@ import com.mcmouse88.foundation.views.BaseViewModel
 import com.mcmouse88.foundation.views.LiveResult
 import com.mcmouse88.foundation.views.MutableLiveResult
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 
 class CurrentColorViewModel(
     private val navigator: Navigator,
@@ -142,7 +140,7 @@ class CurrentColorViewModel(
     init {
 
         viewModelScope.launch {
-            colorsRepository.listenCurrentColor().collect() {
+            colorsRepository.listenCurrentColor().collect {
                 _currentColor.postValue(SuccessResult(it))
             }
         }

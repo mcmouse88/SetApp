@@ -9,10 +9,11 @@ import kotlinx.coroutines.runBlocking
 typealias SuspendValueLoader<A, T> = suspend (A) -> T?
 
 class LazyFlowSubject<A : Any, T : Any>(
+    lazyListenersFactory: LazyListenersFactory,
     private val loader: SuspendValueLoader<A, T>
 ) {
 
-    private val lazyListenersSubject = LazyListenersSubject<A, T> { arg ->
+    private val lazyListenersSubject = lazyListenersFactory.createLazyListenersSubject<A, T> { arg ->
         runBlocking {
             loader.invoke(arg)
         }

@@ -10,7 +10,9 @@ import com.mcmouse88.okhttp.domain.boxes.entities.Box
 import com.mcmouse88.okhttp.domain.boxes.entities.BoxAndSettings
 import com.mcmouse88.okhttp.domain.boxes.entities.BoxesFilter
 import com.mcmouse88.okhttp.domain.wrapBackendException
+import com.mcmouse88.okhttp.utils.async.LazyFlowFactory
 import com.mcmouse88.okhttp.utils.async.LazyFlowSubject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -18,15 +20,18 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class BoxesRepository @Inject constructor(
     private val accountsRepository: AccountsRepository,
-    private val boxesSource: BoxesSource
+    private val boxesSource: BoxesSource,
+    lazyFlowFactory: LazyFlowFactory
 ) {
 
     private var accountResult: ResultResponse<Account> = Empty()
 
-    private val boxesLazyFlowSubject = LazyFlowSubject<BoxesFilter, List<BoxAndSettings>> { filter ->
+    private val boxesLazyFlowSubject: LazyFlowSubject<BoxesFilter, List<BoxAndSettings>> =
+        lazyFlowFactory.createLazyFlowSubject { filter ->
         wrapBackendException { boxesSource.getBoxes(filter) }
     }
 

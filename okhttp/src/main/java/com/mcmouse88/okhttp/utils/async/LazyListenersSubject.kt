@@ -65,21 +65,21 @@ class LazyListenersSubject<A : Any, T : Any>(
         futures[argument] = record
         val future = loaderExecutor.submit {
             try {
-               if (silentMode.not()) publishNotCancelled(record, argument, Pending())
+               if (silentMode.not()) publishIfNotCancelled(record, argument, Pending())
                 val res = loader(argument)
                 if (res == null) {
-                    publishNotCancelled(record, argument, Empty())
+                    publishIfNotCancelled(record, argument, Empty())
                 } else {
-                    publishNotCancelled(record, argument, Success(res))
+                    publishIfNotCancelled(record, argument, Success(res))
                 }
             } catch (e: Exception) {
-                publishNotCancelled(record, argument, Error(e))
+                publishIfNotCancelled(record, argument, Error(e))
             }
         }
         record.future = future
     }
 
-    private fun publishNotCancelled(record: FutureRecord<T>, argument: A, result: ResultResponse<T>) {
+    private fun publishIfNotCancelled(record: FutureRecord<T>, argument: A, result: ResultResponse<T>) {
         if (record.cancelled) return
         publish(argument, result)
     }

@@ -23,6 +23,23 @@ sealed class ResultResponse<T> {
     }
 
     fun isFinished() = this is Success<T> || this is Error<T>
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (this is Success<*> && other is Success<*>) {
+            return this.value == other.value
+        } else if (this is Error<*> && other is Error<*>) {
+            return this.error == other.error
+        }
+        return true
+    }
+
+    override fun hashCode(): Int {
+        if (this is Success<*>) return javaClass.hashCode() + 31 * this.value.hashCode()
+        if (this is Error<*>) return javaClass.hashCode() + 31 * this.error.hashCode()
+        return javaClass.hashCode()
+    }
 }
 
 class Success<T>(

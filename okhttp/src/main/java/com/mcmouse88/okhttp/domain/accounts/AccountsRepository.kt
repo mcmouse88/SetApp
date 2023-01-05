@@ -1,16 +1,10 @@
 package com.mcmouse88.okhttp.domain.accounts
 
-import com.mcmouse88.okhttp.domain.AccountAlreadyExistException
-import com.mcmouse88.okhttp.domain.AuthException
-import com.mcmouse88.okhttp.domain.BackendException
-import com.mcmouse88.okhttp.domain.EmptyFieldException
-import com.mcmouse88.okhttp.domain.Field
-import com.mcmouse88.okhttp.domain.InvalidCredentialsException
-import com.mcmouse88.okhttp.domain.ResultResponse
+import com.mcmouse88.okhttp.domain.*
 import com.mcmouse88.okhttp.domain.accounts.entities.Account
 import com.mcmouse88.okhttp.domain.accounts.entities.SignUpData
 import com.mcmouse88.okhttp.domain.settings.AppSettings
-import com.mcmouse88.okhttp.domain.wrapBackendException
+import com.mcmouse88.okhttp.utils.async.LazyFlowFactory
 import com.mcmouse88.okhttp.utils.async.LazyFlowSubject
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -19,12 +13,14 @@ import javax.inject.Singleton
 @Singleton
 class AccountsRepository @Inject constructor(
     private val accountsSource: AccountsSource,
-    private val appSettings: AppSettings
+    private val appSettings: AppSettings,
+    lazyFlowFactory: LazyFlowFactory
 ) {
 
-    private val accountLazyFlowSubject = LazyFlowSubject<Unit, Account> {
-        doGetAccount()
-    }
+    private val accountLazyFlowSubject: LazyFlowSubject<Unit, Account> =
+        lazyFlowFactory.createLazyFlowSubject {
+            doGetAccount()
+        }
 
     fun isSignedIn(): Boolean = appSettings.getCurrentToken() != null
 

@@ -1,5 +1,6 @@
 package com.mcmouse88.okhttp.presentation.base
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcmouse88.okhttp.R
@@ -56,4 +57,7 @@ open class BaseViewModel(
     fun logout() {
         accountsRepository.logout()
     }
+
+    protected fun showErrorMessage(@StringRes messageRes: Int) =
+        _showErrorMessageResEvent.publishEvent(messageRes)
 }
