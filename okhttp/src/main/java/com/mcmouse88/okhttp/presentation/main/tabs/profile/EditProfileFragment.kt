@@ -2,7 +2,6 @@ package com.mcmouse88.okhttp.presentation.main.tabs.profile
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mcmouse88.okhttp.R
@@ -30,7 +29,6 @@ class EditProfileFragment : BaseFragment(R.layout.fragment_edit_profile) {
         if (savedInstanceState == null) listenInitialUserNameEvent()
         observeGoBackEvent()
         observeSaveInProgress()
-        observeEmptyFieldErrorEvent()
     }
 
     override fun onDestroyView() {
@@ -39,7 +37,7 @@ class EditProfileFragment : BaseFragment(R.layout.fragment_edit_profile) {
     }
 
     private fun onSaveButtonPressed() {
-        viewModel.saveUserName(binding.etUsername.text.toString())
+        viewModel.saveUsername(binding.etUsername.text.toString())
     }
 
     private fun observeSaveInProgress() =
@@ -54,11 +52,6 @@ class EditProfileFragment : BaseFragment(R.layout.fragment_edit_profile) {
     private fun listenInitialUserNameEvent() =
         viewModel.initialUserNameEvent.observeEvent(viewLifecycleOwner) {
             binding.etUsername.setText(it)
-        }
-
-    private fun observeEmptyFieldErrorEvent() =
-        viewModel.showErrorEvent.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
     private fun onCancelButtonPressed() {

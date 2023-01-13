@@ -27,6 +27,12 @@ class CatsAdapter(
         }
     }
 
+    /**
+     * Наиболее оптимизированным способом назначать слушателей для отдельных элементов итема
+     * является назначение в [onCreateViewHolder], так как при назначении в [onBindViewHolder]
+     * слушатель будет назначаться каждый раз при скроле списка, и также назначать адаптер в
+     * качестве слушателя.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemCatBinding.inflate(inflater, parent, false)

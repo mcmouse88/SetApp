@@ -50,7 +50,7 @@ open class BaseViewModel(
         }
     }
 
-    private fun logError(e: Throwable) {
+    fun logError(e: Throwable) {
         logger.error(javaClass.simpleName, e)
     }
 

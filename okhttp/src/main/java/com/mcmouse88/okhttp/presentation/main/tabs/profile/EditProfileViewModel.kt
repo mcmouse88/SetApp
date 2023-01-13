@@ -33,9 +33,6 @@ class EditProfileViewModel @Inject constructor(
     private val _goBackEvent = MutableUnitLiveEvent()
     val goBackEvent = _goBackEvent.share()
 
-    private val _showErrorEvent = MutableLiveEvent<Int>()
-    val showErrorEvent = _showErrorEvent.share()
-
     init {
         viewModelScope.launch {
             val res = accountsRepository.getAccount()
@@ -45,13 +42,13 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveUserName(newUsername: String) = viewModelScope.safeLaunch {
+    fun saveUsername(newUsername: String) = viewModelScope.safeLaunch {
         showProgress()
         try {
             accountsRepository.updateAccountUsername(newUsername)
             goBack()
         } catch (e: EmptyFieldException) {
-            showEmptyFieldErrorMessage()
+            showErrorMessage(R.string.field_is_empty)
         }   finally {
             hideProgress()
         }
@@ -66,6 +63,4 @@ class EditProfileViewModel @Inject constructor(
     private fun hideProgress() {
         _saveInProgress.value = false
     }
-
-    private fun showEmptyFieldErrorMessage() = _showErrorEvent.publishEvent(R.string.field_is_empty)
 }
