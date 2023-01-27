@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.mcmouse88.cats_adapter_espresso.CatsApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AnotherKindOfApp">
+        <activity
+            android:name="com.mcmouse88.cats_adapter_espresso.apps.activities.CatsListActivity"
+            android:exported="true"
+            android:label="@string/activity_cats">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.mcmouse88.cats_adapter_espresso.apps.fragments.CatsFragmentContainerActivity"
+            android:exported="true"
+            android:label="@string/activity_fragments">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.mcmouse88.cats_adapter_espresso.apps.nav_component.NavComponentActivity"
+            android:exported="true"
+            android:label="@string/activity_nav_component">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.mcmouse88.cats_adapter_espresso.apps.activities.CatDetailActivity"
+            android:exported="false"
+            android:label="@string/activity_cat_details" />
+
+    </application>
+
+</manifest>

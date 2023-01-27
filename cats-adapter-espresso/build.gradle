@@ -1,0 +1,143 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'com.mcmouse88.catadapterespresso'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.mcmouse88.catadapterespresso"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        // Класс который мы создали для интеграции с тестами при использовании Hilt
+        testInstrumentationRunner "com.mcmouse88.cats_adapter_espresso.HiltAndroidTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    // JavaFaker
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+
+    // Fragment and Activity ktx
+    implementation 'androidx.activity:activity-ktx:1.6.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+
+    // Custom RecyclerView Adapter
+    implementation 'com.elveum:element-adapter:0.3.1'
+
+    // Coil
+    implementation 'io.coil-kt:coil:2.2.0'
+
+    // Mockk
+    testImplementation 'io.mockk:mockk:1.13.3'
+
+    /**
+     * Первые пять зависимостей, это основа бибилиотеки Espresso для UI тестирования, также,
+     * чтобы UI тесты корректно работали, нужно чтобы на устройстве во вкладке developer options
+     * были отключены все анимации (window animation scale, transition animation scale, animator
+     * duration scale).
+     */
+    androidTestImplementation 'org.hamcrest:hamcrest:2.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    /**
+     * espresso contrib содержит дополнительные методы для тестирования RecyclerView и некоторых
+     * других компонентов (таких как ViewPager, Navigation Drawer и т.д.)
+     */
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+
+    /**
+     * espresso intents нужна для тестирования навигации между активити, эта зависимость позволяет
+     * проверять создание объектов интентов
+     */
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+
+    /**
+     * arch.core и coroutines-test служат для избавления проблем с многопоточностью в андроид
+     * приложениях (для работы с корутинами, диспатчерами и т.д.), и нужны также как и для
+     * Unit тестов, при этом если они нужны для UI тестов, то их нужно подключать отдельно через
+     * androidTestImplementation (unit тесты через testImplementation).
+     */
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+
+    /**
+     * Для тестирования навигации на базе Navigation Component
+     */
+    androidTestImplementation "androidx.navigation:navigation-testing:2.5.3"
+
+    /**
+     * Нужны для UI тестирования в случае если в проекте используется библиотека Hilt, позволяют
+     * подменять отдельные hilt модули при тестировании
+     */
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    /**
+     * Подключает бибилиотеку MockK для UI тестов
+     */
+    debugImplementation "io.mockk:mockk-android:1.13.1"
+
+    /**
+     * Для тестирования навигации на базе фрагментов, особенность двух последних зависимостей, что
+     * они подключаются через debugImplementation
+     */
+    debugImplementation "androidx.fragment:fragment-testing:1.5.5"
+}
