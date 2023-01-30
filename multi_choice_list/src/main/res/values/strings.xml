@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MultiChoiceList</string>
+
+    <string name="go_back">Go Back</string>
+    <string name="cats_title">Cats 😼</string>
+    <string name="cat_details_title">Cat Details</string>
+    <string name="selection_state">Selected: %1$d out of %2$d</string>
+    <string name="select_all">Select All</string>
+    <string name="clear_all">Clear All</string>
 </resources>
