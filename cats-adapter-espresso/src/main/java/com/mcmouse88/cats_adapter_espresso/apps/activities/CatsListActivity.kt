@@ -38,8 +38,8 @@ class CatsListActivity : AppCompatActivity(), CatsAdapterListener {
     }
 
     override fun onCatChosen(cat: CatListItem.CatItem) {
-        val intent = Intent(this, CatDetailActivity::class.java)
-        intent.putExtra(CatDetailActivity.EXTRA_CAT_ID, cat.id)
+        val intent = Intent(this, CatDetailsActivity::class.java)
+        intent.putExtra(CatDetailsActivity.EXTRA_CAT_ID, cat.id)
         startActivity(intent)
     }
 }

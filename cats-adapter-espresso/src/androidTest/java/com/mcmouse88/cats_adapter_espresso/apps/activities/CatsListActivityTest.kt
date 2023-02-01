@@ -108,7 +108,7 @@ class CatsListActivityTest : BaseTest() {
             .perform(AtPosition.actionOnItemAtPosition(1, ViewActions.click()))
 
         // assert
-        Intents.intended(IntentMatchers.hasExtra(CatDetailActivity.EXTRA_CAT_ID, 1L))
+        Intents.intended(IntentMatchers.hasExtra(CatDetailsActivity.EXTRA_CAT_ID, 1L))
     }
 
     @Test

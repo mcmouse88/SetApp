@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name="com.mcmouse88.cats_adapter_espresso.apps.activities.CatDetailActivity"
+            android:name="com.mcmouse88.cats_adapter_espresso.apps.activities.CatDetailsActivity"
             android:exported="false"
             android:label="@string/activity_cat_details" />
 

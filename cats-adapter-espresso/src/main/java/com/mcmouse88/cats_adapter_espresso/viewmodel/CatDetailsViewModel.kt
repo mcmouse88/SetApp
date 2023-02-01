@@ -8,7 +8,6 @@ import com.mcmouse88.cats_adapter_espresso.viewmodel.base.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
@@ -20,7 +19,7 @@ class CatDetailsViewModel @AssistedInject constructor(
     val catLiveData: LiveData<Cat> = liveData()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             catsRepository.getCatById(catId).filterNotNull().collect {
                 catLiveData.update(it)
             }

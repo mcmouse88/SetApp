@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CatDetailActivity : AppCompatActivity() {
+class CatDetailsActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: CatDetailsViewModel.Factory

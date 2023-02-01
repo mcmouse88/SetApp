@@ -45,13 +45,22 @@ android {
         exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/LICENSE-notice.md'
     }
+
+    /*
+     * Этой опцией указываем, что вместе с unit тестами будут упаковываться android ресурсы.
+     */
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
 
@@ -78,6 +87,8 @@ dependencies {
 
     // Custom RecyclerView Adapter
     implementation 'com.elveum:element-adapter:0.3.1'
+
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
     // Coil
     implementation 'io.coil-kt:coil:2.2.0'
@@ -117,6 +128,7 @@ dependencies {
      */
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     /**
      * Для тестирования навигации на базе Navigation Component
@@ -128,7 +140,9 @@ dependencies {
      * подменять отдельные hilt модули при тестировании
      */
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     /**
      * Подключает бибилиотеку MockK для UI тестов
@@ -140,4 +154,6 @@ dependencies {
      * они подключаются через debugImplementation
      */
     debugImplementation "androidx.fragment:fragment-testing:1.5.5"
+
+    testImplementation 'org.robolectric:robolectric:4.9'
 }

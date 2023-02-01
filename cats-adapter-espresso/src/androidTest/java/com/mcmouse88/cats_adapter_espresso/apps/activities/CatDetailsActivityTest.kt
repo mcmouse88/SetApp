@@ -40,7 +40,7 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule::class)
 @MediumTest
-class CatDetailActivityTest : BaseTest() {
+class CatDetailsActivityTest : BaseTest() {
 
     /**
      * Здесь мы создаем сценарий для каждой активити которая тестируется, и в методах, которые
@@ -51,7 +51,7 @@ class CatDetailActivityTest : BaseTest() {
      * самого приложения, и опционально через bundle можно передать параметры. Если мы
      * инициализировали интент и сценарий активити, то в методе [After] необходимо их закрыть.
      */
-    private lateinit var scenario: ActivityScenario<CatDetailActivity>
+    private lateinit var scenario: ActivityScenario<CatDetailsActivity>
 
     private val cat = Cat(
         id = 1,
@@ -68,8 +68,8 @@ class CatDetailActivityTest : BaseTest() {
         every { catsRepository.getCatById(any()) } returns catFlow
         Intents.init()
         scenario = ActivityScenario.launch(
-            CatDetailActivity::class.java,
-            bundleOf(CatDetailActivity.EXTRA_CAT_ID to 1L)
+            CatDetailsActivity::class.java,
+            bundleOf(CatDetailsActivity.EXTRA_CAT_ID to 1L)
         )
     }
 
