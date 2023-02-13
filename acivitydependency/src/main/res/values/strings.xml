@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AcivityDependency</string>
+
+    <string name="error_unknown">Unknown internal error</string>
+    <string name="error_called_not_from_ui">Application is not active</string>
+    <string name="error_auth">User session has been expired</string>
+    <string name="error_in_progress">This operation is already in progress</string>
+    <string name="error_login_cancelled">Login process has been cancelled</string>
+    <string name="error_login_failed">Login has been failed: %1$s</string>
+    <string name="sign_in">Sign In</string>
+    <string name="try_again">Try Again</string>
+    <string name="logout">Logout</string>
+    <string name="hello">Hello, %1$s!</string>
+    <string name="emulate_successful_sign_in">Emulate Successful Sign In</string>
+    <string name="emulate_cancelled_sign_in">Emulate Cancelled Sign In</string>
+    <string name="emulate_error_sign_in">Emulate Error Sign In</string>
+    <string name="profile">Profile</string>
+</resources>
