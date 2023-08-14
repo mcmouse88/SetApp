@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ReadWriteFiles</string>
+    <string name="open">Open</string>
+    <string name="save">Save</string>
+    <string name="in_app_files">In-App Files</string>
+    <string name="user_files">User Files</string>
+    <string name="cant_access_file">Can\'t access file</string>
 </resources>

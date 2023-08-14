@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="com.mcmouse88.file_to_server.presentation.files.FilesFragment"
+        android:label="@string/files"
+        tools:layout="@layout/fragment_files" />
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.mcmouse88.file_to_server.presentation.sign_in.SigInFragment"
+        android:label="@string/sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+
+    <action
+        android:id="@+id/action_logout"
+        app:destination="@id/signInFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_files"
+        app:destination="@id/filesFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+</navigation>

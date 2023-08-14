@@ -62,6 +62,7 @@ class CurrentColorViewModel(
      *     coroutine.start(start, coroutine, block)
      *     return coroutine
      * }
+     * ```
      * Данная
      * функция может быть приостановлена, а затем возобновлена. Scope это такой объект, который
      * во первых задает время жизни корутин, во вторых содержит ссылку на [CoroutineContext], и в

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FileToServer</string>
+
+    <string name="error_unknown">Unknown internal error</string>
+    <string name="error_called_not_from_ui">Application is not active</string>
+    <string name="error_auth">User session has been expired</string>
+    <string name="error_in_progress">This operation is already in progress</string>
+    <string name="error_connection">Internet connection error</string>
+    <string name="error_login_failed">Login has been failed: %1$s</string>
+    <string name="sign_in">Sign In</string>
+    <string name="files">Files</string>
+    <string name="try_again">Try Again</string>
+    <string name="logout">Logout</string>
+
+    <string name="size_bytes">%1$d bytes</string>
+    <string name="size_kbytes">%1$.1f KB</string>
+    <string name="size_mbytes">%1$.1f MB</string>
+    <string name="uploading_file">Uploading file</string>
+    <string name="please_wait">Please wait…</string>
+</resources>

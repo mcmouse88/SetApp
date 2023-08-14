@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="always_white">#FFFFFFFF</color>
+    <color name="tint">#a9a9a9</color>
+    <color name="progress_bg">#88000000</color>
 </resources>

@@ -231,7 +231,6 @@ class BottomButtonsView(
                 override fun newArray(size: Int): Array<SavedState?> {
                     return Array(size) { null }
                 }
-
             }
         }
     }
